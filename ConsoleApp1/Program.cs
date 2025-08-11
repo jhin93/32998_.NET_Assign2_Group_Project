@@ -6,5 +6,11 @@
         {
             Console.WriteLine("Hello, World! This is testing");
         }
+
+        static int SumAverageLargestSmallest(int input)
+        {
+            Console.WriteLine("This is a test method.");
+            return input;
+        }
     }
 }
