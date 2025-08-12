@@ -33,6 +33,7 @@ double[,] array = new double[,] { { 10.0, 11.2 }, { 38.1, 0.0 } };
 ```
 
 pass parameter by reference
+메소드로 원래 존재했던 변수를 변경하는 것. ref(참조)를 통해 원본 변수를 변경하는 것. 원본 변수에 초기값 필요
 ```C#
 using System;
 
@@ -64,6 +65,7 @@ namespace ReferenceParameterDemo
 ```
 
 pass parameter by output
+out 키워드는 빈 변수에 값을 전달 (초기값 불필요, 메서드 내에서 반드시 설정).
 ```C#
 using System;
 
