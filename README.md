@@ -1,5 +1,8 @@
 # 32998_.NET_Application_Developments
 
+Class: car architecture blueprint
+Object: Mercedes, BMW, Audi
+
 multi-dimensional array
 ```C#
 using System;
