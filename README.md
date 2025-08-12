@@ -3,6 +3,57 @@
 ### Class: car architecture blueprint
 ### Object: Mercedes, BMW, Audi
 
+```C#
+using System;
+
+namespace StudentDemo
+{
+    // Class: Defines a blueprint for a Student
+    public class Student
+    {
+        // Fields: Store data for the student
+        public string Name;
+        public int RollNumber;
+        public double Grade;
+
+        // Constructor: Initialize the student object
+        public Student(string name, int rollNumber, double grade)
+        {
+            Name = name;
+            RollNumber = rollNumber;
+            Grade = grade;
+        }
+
+        // Method: Display student information
+        public void DisplayInfo()
+        {
+            Console.WriteLine($"Student Name: {Name}, Roll Number: {RollNumber}, Grade: {Grade}");
+        }
+    }
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            // Object: Create an instance of the Student class
+            Student student1 = new Student("Nabin Sharma", 1091, 95.5);
+
+            // Object: Create another instance of the Student class
+            Student student2 = new Student("John Doe", 1092, 88.0);
+
+            // Call method to display information for each object
+            Console.WriteLine("Student 1 Information:");
+            student1.DisplayInfo();
+
+            Console.WriteLine("\nStudent 2 Information:");
+            student2.DisplayInfo();
+
+            Console.ReadKey();
+        }
+    }
+}
+```
+
 multi-dimensional array
 ```C#
 using System;
