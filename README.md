@@ -1,7 +1,8 @@
 # 32998_.NET_Application_Developments
 
-### Class: car architecture blueprint
-### Object: Mercedes, BMW, Audi
+### Class: Student
+### Constructor : public Student(string name, int rollNumber, double grade)
+### Object: John doe, Nabin
 
 ```C#
 using System;
