@@ -10,6 +10,9 @@
             if (int.TryParse(input, out int number))
             {
                 int test = SumAverageLargestSmallest(number);
+                Calculator calc = new Calculator();
+                int result = calc.Add(3, 5);
+                Console.WriteLine(result);
                 Console.WriteLine(test);
             }
             else
