@@ -152,3 +152,47 @@ namespace OutParameterDemo
     }
 }
 ```
+ArrayList
+```csharp
+using System;
+using System.Collections;
+
+class Program
+{
+    static void Main()
+    {
+        // ArrayList 생성
+        ArrayList list = new ArrayList();
+
+        // 다양한 타입의 요소 추가
+        list.Add(42);           // 정수
+        list.Add("Hello");      // 문자열
+        list.Add(3.14);        // 실수
+
+        // 요소 출력
+        Console.WriteLine("ArrayList 요소:");
+        foreach (object item in list)
+        {
+            Console.WriteLine(item);
+        }
+
+        // 특정 인덱스 요소 접근
+        Console.WriteLine("\n인덱스 1의 요소: " + list[1]); // "Hello"
+
+        // 요소 제거
+        list.Remove(42); // 42 제거
+
+        // 요소 개수 확인
+        Console.WriteLine("\n제거 후 요소 개수: " + list.Count);
+
+        // 정렬 (동일한 타입의 요소일 경우에만 의미 있음)
+        ArrayList stringList = new ArrayList { "Banana", "Apple", "Cherry" };
+        stringList.Sort();
+        Console.WriteLine("\n정렬된 문자열 리스트:");
+        foreach (object item in stringList)
+        {
+            Console.WriteLine(item);
+        }
+    }
+}
+```
