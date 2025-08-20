@@ -12,7 +12,6 @@
                 Calculator calc = new Calculator();
                 int result = calc.Add(3, 5);
                 Console.WriteLine(result);
-                Console.WriteLine(test);
             }
             else
             {
