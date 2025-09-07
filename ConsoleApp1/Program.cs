@@ -4,24 +4,19 @@
     {
         static void Main(string[] args)
         {
-            // .Read() 예시: 한 글자를 입력받아 유니코드 값 출력
             int ch = Console.Read();
-            Console.WriteLine("입력한 문자의 유니코드 값: " + ch);
+            Console.WriteLine("unicode values of input: " + ch);
 
-            // .ReadLine() 예시: 한 줄을 입력받아 그대로 출력
             string line = Console.ReadLine();
-            Console.WriteLine("입력한 문자열: " + line);
+            Console.WriteLine("input values: " + line);
 
-            // .ReadKey() 예시: 아무 키나 누르면 해당 키 정보 출력
-            Console.WriteLine("아무 키나 누르세요.");
+            Console.WriteLine("press any key.");
             ConsoleKeyInfo keyInfo = Console.ReadKey();
-            Console.WriteLine("\n누른 키: " + keyInfo.Key);
+            Console.WriteLine("\n pressed key: " + keyInfo.Key);
 
-            // .Write() 예시: 줄바꿈 없이 출력
-            Console.Write("줄바꿈 없이 출력합니다.");
+            Console.Write("print without changing the line.");
 
-            // .WriteLine() 예시: 줄바꿈과 함께 출력
-            Console.WriteLine("줄바꿈과 함께 출력합니다.");
+            Console.WriteLine("print with changing the line.");
             
             if (int.TryParse(line, out int number))
             {
