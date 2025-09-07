@@ -1,0 +1,3 @@
+12342|Jack Doctorson|drjack@email.com|0412333676|23 Real Street, Sydney, NSW|doc123
+98765|Sarah Smith|sarah.smith@hospital.com|0412456789|15 Medical Ave, Melbourne, VIC|pass456
+45678|Michael Chen|m.chen@doctors.com|0423567890|8 Health St, Brisbane, QLD|secure789
