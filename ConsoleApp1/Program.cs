@@ -7,7 +7,7 @@
             int ch = Console.Read();
             Console.WriteLine("unicode values of input: " + ch);
 
-            string line = Console.ReadLine();
+            string? line = Console.ReadLine();
             Console.WriteLine("input values: " + line);
 
             Console.WriteLine("press any key.");
@@ -18,7 +18,7 @@
 
             Console.WriteLine("print with changing the line.");
             
-            if (int.TryParse(line, out int number))
+            if (!string.IsNullOrEmpty(line) && int.TryParse(line, out int number))
             {
                 Calculator calc = new Calculator();
                 int result = calc.Add(3, 5);
