@@ -6,9 +6,9 @@ Assignment 1 - Spring 2025
 31927 – Application Development with .NET
 32998 - .NET Application Development
 
-============
+=========
 HOW TO RUN THE APPLICATION
-============
+=========
 
 1. Visual Studio Community Edition 2022:
    - Open the HospitalManagementSystem.sln file in Visual Studio 2022
@@ -20,9 +20,9 @@ HOW TO RUN THE APPLICATION
    - Run: dotnet build
    - Run: dotnet run
    
-==================================
+=========
 TEST CREDENTIALS
-==================================
+=========
 
 PATIENTS:
 - ID: 13267, Password: pat123 (David Patientson)
@@ -66,9 +66,9 @@ FEATURES IMPLEMENTED
    - Data persistence using .txt files
    - Appointment booking system
 
-==================================
+=========
 PROJECT STRUCTURE
-==================================
+=========
 
 /HospitalManagementSystem
   /Models
@@ -92,9 +92,9 @@ PROJECT STRUCTURE
     - usedIds.txt
   - Program.cs (main entry point)
 
-==================================
+=========
 NOTES
-==================================
+=========
 
 - The application uses console-based menus
 - All data is stored in .txt files in the Data folder
