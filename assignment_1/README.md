@@ -1,4 +1,4 @@
-.NET Hospital Management System
+32998 Hospital Management System
 14657314 Jinkyung Kim
 ==================================
 
