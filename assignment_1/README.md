@@ -6,8 +6,9 @@ Assignment 1 - Spring 2025
 31927 – Application Development with .NET
 32998 - .NET Application Development
 
-- HOW TO RUN THE APPLICATION
-
+============
+HOW TO RUN THE APPLICATION
+============
 
 1. Visual Studio Community Edition 2022:
    - Open the HospitalManagementSystem.sln file in Visual Studio 2022
