@@ -28,7 +28,7 @@ namespace HospitalManagementSystem.Models
             {
                 Console.Clear();
                 DisplayMenuHeader("Administrator Menu");
-                Console.WriteLine($"Welcome to DOTNET Hospital Management System {Name}\n");
+                Console.WriteLine($"Welcome to Hospital Management System {Name}\n");
                 Console.WriteLine("Please choose an option:");
                 Console.WriteLine("1. List all doctors");
                 Console.WriteLine("2. Check doctor details");

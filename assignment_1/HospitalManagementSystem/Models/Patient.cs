@@ -32,7 +32,7 @@ namespace HospitalManagementSystem.Models
             {
                 Console.Clear();
                 DisplayMenuHeader("Patient Menu");
-                Console.WriteLine($"Welcome to DOTNET Hospital Management System {Name}\n");
+                Console.WriteLine($"Welcome to Hospital Management System {Name}\n");
                 Console.WriteLine("Please choose an option:");
                 Console.WriteLine("1. List Patient Details");
                 Console.WriteLine("2. List my doctor details");
