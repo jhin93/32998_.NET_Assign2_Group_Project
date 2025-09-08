@@ -262,7 +262,7 @@ namespace HospitalManagementSystem
         }
 
         // Find user by ID and password (for login)
-        public static User FindUser(int id, string password)
+        public static User? FindUser(int id, string password)
         {
             // Check patients
             var patients = LoadPatients();

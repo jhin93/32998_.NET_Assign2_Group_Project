@@ -60,8 +60,8 @@ namespace HospitalManagementSystem
             try
             {
                 // Ensure directory exists
-                string directory = Path.GetDirectoryName(IdFile);
-                if (!Directory.Exists(directory))
+                string? directory = Path.GetDirectoryName(IdFile);
+                if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
                 {
                     Directory.CreateDirectory(directory);
                 }
@@ -160,6 +160,19 @@ namespace HospitalManagementSystem
 
             Console.WriteLine();
             return password;
+        }
+
+        // Safe console readline that never returns null
+        public static string ReadLine()
+        {
+            return Console.ReadLine() ?? string.Empty;
+        }
+
+        // Safe console readline with prompt
+        public static string ReadLine(string prompt)
+        {
+            Console.Write(prompt);
+            return Console.ReadLine() ?? string.Empty;
         }
     }
 }

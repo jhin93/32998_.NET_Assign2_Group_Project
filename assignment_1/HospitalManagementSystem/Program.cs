@@ -56,17 +56,17 @@ namespace HospitalManagementSystem
                 try
                 {
                     Console.Write("\nID: ");
-                    string idInput = Console.ReadLine();
+                    string? idInput = Console.ReadLine();
                     
                     // Check for exit command
-                    if (idInput.ToLower() == "exit")
+                    if (idInput?.ToLower() == "exit")
                     {
                         Console.WriteLine("\nExiting application...");
                         Environment.Exit(0);
                     }
                     
                     // Validate ID using extension method
-                    if (!idInput.IsValidId())
+                    if (string.IsNullOrEmpty(idInput) || !idInput.IsValidId())
                     {
                         Console.WriteLine("\nInvalid ID format. ID must be between 5-8 digits.");
                         Console.WriteLine("Press any key to try again...");
@@ -80,7 +80,7 @@ namespace HospitalManagementSystem
                     string password = Utils.GetMaskedPassword();
                     
                     // Validate credentials
-                    User user = FileManager.FindUser(id, password);
+                    User? user = FileManager.FindUser(id, password);
                     
                     if (user != null)
                     {

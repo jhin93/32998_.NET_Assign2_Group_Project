@@ -48,7 +48,7 @@ namespace HospitalManagementSystem.Models
 
                 try
                 {
-                    string choice = Console.ReadLine();
+                    string choice = Utils.ReadLine();
                     switch (choice)
                     {
                         case "1":
@@ -187,7 +187,7 @@ namespace HospitalManagementSystem.Models
                     }
                     
                     Console.Write("\nPlease choose a doctor (enter number): ");
-                    if (int.TryParse(Console.ReadLine(), out int choice) && choice > 0 && choice <= doctors.Count)
+                    if (int.TryParse(Utils.ReadLine(), out int choice) && choice > 0 && choice <= doctors.Count)
                     {
                         RegisteredDoctorId = doctors[choice - 1].Id;
                         
@@ -213,7 +213,7 @@ namespace HospitalManagementSystem.Models
                 // Now book the appointment
                 Console.WriteLine("\nYou are booking a new appointment with your registered doctor");
                 Console.Write("Description of the appointment: ");
-                string description = Console.ReadLine();
+                string description = Utils.ReadLine();
                 
                 if (string.IsNullOrWhiteSpace(description))
                 {

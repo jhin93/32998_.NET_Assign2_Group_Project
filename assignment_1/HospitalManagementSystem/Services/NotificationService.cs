@@ -9,7 +9,7 @@ namespace HospitalManagementSystem.Services
     public class NotificationService
     {
         // Event using the delegate
-        public event NotificationHandler OnNotification;
+        public event NotificationHandler? OnNotification;
 
         // Method to send notification
         public void SendNotification(string message)

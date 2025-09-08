@@ -37,7 +37,7 @@ namespace HospitalManagementSystem.Services
         }
 
         // Get first item matching predicate
-        public T FindFirst(Func<T, bool> predicate)
+        public T? FindFirst(Func<T, bool> predicate)
         {
             return items.FirstOrDefault(predicate);
         }

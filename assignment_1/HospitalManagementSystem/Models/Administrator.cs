@@ -46,7 +46,7 @@ namespace HospitalManagementSystem.Models
 
                 try
                 {
-                    string choice = Console.ReadLine();
+                    string choice = Utils.ReadLine();
                     switch (choice)
                     {
                         case "1":
@@ -121,7 +121,7 @@ namespace HospitalManagementSystem.Models
             DisplayMenuHeader("Doctor Details");
             
             Console.Write("\nPlease enter the ID of the doctor who's details you are checking. Or press n to return to menu: ");
-            string input = Console.ReadLine();
+            string input = Utils.ReadLine();
             
             if (input.ToLower() == "n")
             {
@@ -190,7 +190,7 @@ namespace HospitalManagementSystem.Models
             DisplayMenuHeader("Patient Details");
             
             Console.Write("\nPlease enter the ID of the patient who's details you are checking. Or press n to return to menu: ");
-            string input = Console.ReadLine();
+            string input = Utils.ReadLine();
             
             if (input.ToLower() == "n")
             {
@@ -238,35 +238,35 @@ namespace HospitalManagementSystem.Models
             try
             {
                 Console.Write("First Name: ");
-                string firstName = Console.ReadLine();
+                string firstName = Utils.ReadLine();
                 
                 Console.Write("Last Name: ");
-                string lastName = Console.ReadLine();
+                string lastName = Utils.ReadLine();
                 
                 string fullName = $"{firstName} {lastName}";
                 
                 Console.Write("Email: ");
-                string email = Console.ReadLine();
+                string email = Utils.ReadLine();
                 
                 Console.Write("Phone: ");
-                string phone = Console.ReadLine();
+                string phone = Utils.ReadLine();
                 
                 Console.Write("Street Number: ");
-                string streetNumber = Console.ReadLine();
+                string streetNumber = Utils.ReadLine();
                 
                 Console.Write("Street: ");
-                string street = Console.ReadLine();
+                string street = Utils.ReadLine();
                 
                 Console.Write("City: ");
-                string city = Console.ReadLine();
+                string city = Utils.ReadLine();
                 
                 Console.Write("State: ");
-                string state = Console.ReadLine();
+                string state = Utils.ReadLine();
                 
                 string address = $"{streetNumber} {street}, {city}, {state}";
                 
                 Console.Write("Password: ");
-                string password = Console.ReadLine();
+                string password = Utils.ReadLine();
                 
                 // Validate input
                 if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(email) || 
@@ -307,35 +307,35 @@ namespace HospitalManagementSystem.Models
             try
             {
                 Console.Write("First Name: ");
-                string firstName = Console.ReadLine();
+                string firstName = Utils.ReadLine();
                 
                 Console.Write("Last Name: ");
-                string lastName = Console.ReadLine();
+                string lastName = Utils.ReadLine();
                 
                 string fullName = $"{firstName} {lastName}";
                 
                 Console.Write("Email: ");
-                string email = Console.ReadLine();
+                string email = Utils.ReadLine();
                 
                 Console.Write("Phone: ");
-                string phone = Console.ReadLine();
+                string phone = Utils.ReadLine();
                 
                 Console.Write("Street Number: ");
-                string streetNumber = Console.ReadLine();
+                string streetNumber = Utils.ReadLine();
                 
                 Console.Write("Street: ");
-                string street = Console.ReadLine();
+                string street = Utils.ReadLine();
                 
                 Console.Write("City: ");
-                string city = Console.ReadLine();
+                string city = Utils.ReadLine();
                 
                 Console.Write("State: ");
-                string state = Console.ReadLine();
+                string state = Utils.ReadLine();
                 
                 string address = $"{streetNumber} {street}, {city}, {state}";
                 
                 Console.Write("Password: ");
-                string password = Console.ReadLine();
+                string password = Utils.ReadLine();
                 
                 // Validate input
                 if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(email) || 

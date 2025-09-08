@@ -45,7 +45,7 @@ namespace HospitalManagementSystem.Models
 
                 try
                 {
-                    string choice = Console.ReadLine();
+                    string choice = Utils.ReadLine();
                     switch (choice)
                     {
                         case "1":
@@ -159,7 +159,7 @@ namespace HospitalManagementSystem.Models
             DisplayMenuHeader("Check Patient Details");
             
             Console.Write("\nEnter the ID of the patient to check: ");
-            if (int.TryParse(Console.ReadLine(), out int patientId))
+            if (int.TryParse(Utils.ReadLine(), out int patientId))
             {
                 var patients = FileManager.LoadPatients();
                 var patient = patients.FirstOrDefault(p => p.Id == patientId);
@@ -195,7 +195,7 @@ namespace HospitalManagementSystem.Models
             DisplayMenuHeader("Appointments With Patient");
             
             Console.Write("\nEnter the ID of the patient you would like to view appointments for: ");
-            if (int.TryParse(Console.ReadLine(), out int patientId))
+            if (int.TryParse(Utils.ReadLine(), out int patientId))
             {
                 var patients = FileManager.LoadPatients();
                 var patient = patients.FirstOrDefault(p => p.Id == patientId);
