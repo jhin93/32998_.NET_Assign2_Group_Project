@@ -25,19 +25,19 @@ TEST CREDENTIALS
 =========
 
 PATIENTS:
-- ID: 13267, Password: pat123 (David Patientson)
-- ID: 83618, Password: flu123 (Davey Flu)
-- ID: 54321, Password: emily456 (Emily Johnson)
-- ID: 67890, Password: tom789 (Tom Wilson)
+- ID: 26685, Password: sam123 (Samuel Jackson)
+- ID: 48775, Password: jem123 (Jeremy Irons)
+- ID: 86559, Password: emily456 (Emily Blont)
+- ID: 44658, Password: tom789 (Tom Holand)
 
 DOCTORS:
-- ID: 12342, Password: doc123 (Dr. Jack Doctorson)
-- ID: 98765, Password: pass456 (Dr. Sarah Smith)
-- ID: 45678, Password: secure789 (Dr. Michael Chen)
+- ID: 96588, Password: doc123 (Dr. Faust Lichtenstein)
+- ID: 45675, Password: pass456 (Dr. Sam Smith)
+- ID: 54665, Password: jack789 (Dr. Michael Jackson)
 
 ADMINISTRATORS:
-- ID: 11111, Password: admin123 (David Admin)
-- ID: 22222, Password: manager456 (Susan Manager)
+- ID: 12312, Password: mat123 (Matt Admin)
+- ID: 15442, Password: sus456 (Susan Manager)
 
 =========
 FEATURES IMPLEMENTED
