@@ -39,9 +39,9 @@ ADMINISTRATORS:
 - ID: 11111, Password: admin123 (David Admin)
 - ID: 22222, Password: manager456 (Susan Manager)
 
-==================================
+=========
 FEATURES IMPLEMENTED
-==================================
+=========
 
 1. OOP Principles:
    - Inheritance (User base class)
