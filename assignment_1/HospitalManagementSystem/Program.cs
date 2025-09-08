@@ -1,11 +1,10 @@
-using System;
 using HospitalManagementSystem.Models;
 using HospitalManagementSystem.Services;
 using HospitalManagementSystem.Extensions;
 
 namespace HospitalManagementSystem
 {
-    class Program
+    internal static class Program
     {
         private static NotificationService notificationService = new NotificationService();
 
@@ -18,14 +17,12 @@ namespace HospitalManagementSystem
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            // Main application loop
-            bool exitApplication = false;
-            
-            while (!exitApplication)
+            // Main application loop - runs until Environment.Exit is called
+            while (true)
             {
                 try
                 {
-                    User currentUser = ShowLoginScreen();
+                    User? currentUser = ShowLoginScreen();
                     
                     if (currentUser != null)
                     {
@@ -43,7 +40,7 @@ namespace HospitalManagementSystem
             }
         }
 
-        static User ShowLoginScreen()
+        static User? ShowLoginScreen()
         {
             while (true)
             {

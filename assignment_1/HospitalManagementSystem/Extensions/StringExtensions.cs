@@ -1,5 +1,3 @@
-using System;
-
 namespace HospitalManagementSystem.Extensions
 {
     // Extension methods for string manipulation

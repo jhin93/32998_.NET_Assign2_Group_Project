@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace HospitalManagementSystem.Models
 {
     // Patient class inheriting from User
