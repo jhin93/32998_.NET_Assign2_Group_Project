@@ -116,7 +116,9 @@ namespace HospitalManagementSystem.Models
             Console.Clear();
             DisplayMenuHeader("Doctor Details");
             
-            Console.Write("\nPlease enter the ID of the doctor who's details you are checking. Or press n to return to menu: ");
+            Console.SetCursorPosition(5, 6);
+            Console.Write("Enter the ID of the doctor (or 'n' to return): ");
+            Console.SetCursorPosition(55, 6);
             string input = Utils.ReadLine();
             
             if (input.ToLower() == "n")
@@ -131,22 +133,33 @@ namespace HospitalManagementSystem.Models
                 
                 if (doctor != null)
                 {
-                    Console.WriteLine($"\nDetails for Dr. {doctor.Name}\n");
+                    Console.SetCursorPosition(0, 9);
+                    Console.WriteLine($"Details for Dr. {doctor.Name}");
+                    Console.SetCursorPosition(0, 11);
                     Console.WriteLine($"{"Name",-20} | {"Email Address",-30} | {"Phone",-15} | {"Address",-30}");
+                    Console.SetCursorPosition(0, 12);
                     Console.WriteLine(new string('-', 100));
+                    Console.SetCursorPosition(0, 13);
                     Console.WriteLine($"{doctor.Name,-20} | {doctor.Email,-30} | {doctor.Phone,-15} | {doctor.Address,-30}");
                 }
                 else
                 {
-                    Console.WriteLine($"\nNo doctor found with ID: {doctorId}");
+                    Console.SetCursorPosition(5, 9);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"No doctor found with ID: {doctorId}");
+                    Console.ResetColor();
                 }
             }
             else
             {
-                Console.WriteLine("\nInvalid ID format.");
+                Console.SetCursorPosition(5, 9);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid ID format.");
+                Console.ResetColor();
             }
             
-            Console.WriteLine("\nPress any key to return to Administrator Menu");
+            Console.SetCursorPosition(5, 16);
+            Console.WriteLine("Press any key to return to Administrator Menu");
             Console.ReadKey();
         }
 
@@ -185,7 +198,9 @@ namespace HospitalManagementSystem.Models
             Console.Clear();
             DisplayMenuHeader("Patient Details");
             
-            Console.Write("\nPlease enter the ID of the patient who's details you are checking. Or press n to return to menu: ");
+            Console.SetCursorPosition(5, 6);
+            Console.Write("Enter the ID of the patient (or 'n' to return): ");
+            Console.SetCursorPosition(55, 6);
             string input = Utils.ReadLine();
             
             if (input.ToLower() == "n")
@@ -200,27 +215,38 @@ namespace HospitalManagementSystem.Models
                 
                 if (patient != null)
                 {
-                    Console.WriteLine($"\nDetails for {patient.Name}\n");
+                    Console.SetCursorPosition(0, 9);
+                    Console.WriteLine($"Details for {patient.Name}");
                     
                     var doctors = FileManager.LoadDoctors();
                     var doctor = doctors.FirstOrDefault(d => d.Id == patient.RegisteredDoctorId);
                     string doctorName = doctor != null ? doctor.Name : "Not assigned";
                     
+                    Console.SetCursorPosition(0, 11);
                     Console.WriteLine($"{"Patient",-20} | {"Doctor",-20} | {"Email Address",-30} | {"Phone",-15} | {"Address",-30}");
+                    Console.SetCursorPosition(0, 12);
                     Console.WriteLine(new string('-', 120));
+                    Console.SetCursorPosition(0, 13);
                     Console.WriteLine($"{patient.Name,-20} | {doctorName,-20} | {patient.Email,-30} | {patient.Phone,-15} | {patient.Address,-30}");
                 }
                 else
                 {
-                    Console.WriteLine($"\nNo patient found with ID: {patientId}");
+                    Console.SetCursorPosition(5, 9);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"No patient found with ID: {patientId}");
+                    Console.ResetColor();
                 }
             }
             else
             {
-                Console.WriteLine("\nInvalid ID format.");
+                Console.SetCursorPosition(5, 9);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid ID format.");
+                Console.ResetColor();
             }
             
-            Console.WriteLine("\nPress any key to return to Administrator Menu");
+            Console.SetCursorPosition(5, 16);
+            Console.WriteLine("Press any key to return to Administrator Menu");
             Console.ReadKey();
         }
 
@@ -229,47 +255,87 @@ namespace HospitalManagementSystem.Models
             Console.Clear();
             DisplayMenuHeader("Add Doctor");
             
-            Console.WriteLine("\nRegistering a new doctor with the DOTNET Hospital Management System");
+            Console.SetCursorPosition(0, 5);
+            Console.WriteLine("Registering a new doctor with the DOTNET Hospital Management System");
+            Console.SetCursorPosition(0, 6);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("(Press 'n' at any field to cancel and return to menu)");
+            Console.ResetColor();
+            
+            // Display form layout
+            Console.SetCursorPosition(5, 9);
+            Console.Write("First Name     : ");
+            Console.SetCursorPosition(5, 11);
+            Console.Write("Last Name      : ");
+            Console.SetCursorPosition(5, 13);
+            Console.Write("Email          : ");
+            Console.SetCursorPosition(5, 15);
+            Console.Write("Phone          : ");
+            Console.SetCursorPosition(5, 17);
+            Console.Write("Street Number  : ");
+            Console.SetCursorPosition(5, 19);
+            Console.Write("Street         : ");
+            Console.SetCursorPosition(5, 21);
+            Console.Write("City           : ");
+            Console.SetCursorPosition(5, 23);
+            Console.Write("State          : ");
+            Console.SetCursorPosition(5, 25);
+            Console.Write("Password       : ");
             
             try
             {
-                Console.Write("First Name: ");
+                // Get inputs with cursor positioning
+                Console.SetCursorPosition(22, 9);
                 string firstName = Utils.ReadLine();
+                if (firstName.ToLower() == "n") return;
                 
-                Console.Write("Last Name: ");
+                Console.SetCursorPosition(22, 11);
                 string lastName = Utils.ReadLine();
+                if (lastName.ToLower() == "n") return;
                 
                 string fullName = $"{firstName} {lastName}";
                 
-                Console.Write("Email: ");
+                Console.SetCursorPosition(22, 13);
                 string email = Utils.ReadLine();
+                if (email.ToLower() == "n") return;
                 
-                Console.Write("Phone: ");
+                Console.SetCursorPosition(22, 15);
                 string phone = Utils.ReadLine();
+                if (phone.ToLower() == "n") return;
                 
-                Console.Write("Street Number: ");
+                Console.SetCursorPosition(22, 17);
                 string streetNumber = Utils.ReadLine();
+                if (streetNumber.ToLower() == "n") return;
                 
-                Console.Write("Street: ");
+                Console.SetCursorPosition(22, 19);
                 string street = Utils.ReadLine();
+                if (street.ToLower() == "n") return;
                 
-                Console.Write("City: ");
+                Console.SetCursorPosition(22, 21);
                 string city = Utils.ReadLine();
+                if (city.ToLower() == "n") return;
                 
-                Console.Write("State: ");
+                Console.SetCursorPosition(22, 23);
                 string state = Utils.ReadLine();
+                if (state.ToLower() == "n") return;
                 
                 string address = $"{streetNumber} {street}, {city}, {state}";
                 
-                Console.Write("Password: ");
+                Console.SetCursorPosition(22, 25);
                 string password = Utils.ReadLine();
+                if (password.ToLower() == "n") return;
                 
                 // Validate input
                 if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(email) || 
                     string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(address) || 
                     string.IsNullOrWhiteSpace(password))
                 {
-                    Console.WriteLine("\nAll fields are required.");
+                    Console.SetCursorPosition(5, 28);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("All fields are required.");
+                    Console.ResetColor();
+                    Console.SetCursorPosition(5, 29);
+                    Console.WriteLine("Press any key to return...");
                     Console.ReadKey();
                     return;
                 }
@@ -282,14 +348,21 @@ namespace HospitalManagementSystem.Models
                 doctors.Add(doctor);
                 FileManager.SaveDoctors(doctors);
                 
-                Console.WriteLine($"\nDr. {fullName} added to the system!");
+                Console.SetCursorPosition(5, 28);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Dr. {fullName} added to the system!");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\nError adding doctor: {ex.Message}");
+                Console.SetCursorPosition(5, 28);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error adding doctor: {ex.Message}");
+                Console.ResetColor();
             }
             
-            Console.WriteLine("\nPress any key to return to Administrator Menu");
+            Console.SetCursorPosition(5, 30);
+            Console.WriteLine("Press any key to return to Administrator Menu");
             Console.ReadKey();
         }
 
@@ -298,47 +371,87 @@ namespace HospitalManagementSystem.Models
             Console.Clear();
             DisplayMenuHeader("Add Patient");
             
-            Console.WriteLine("\nRegistering a new patient with the DOTNET Hospital Management System");
+            Console.SetCursorPosition(0, 5);
+            Console.WriteLine("Registering a new patient with the DOTNET Hospital Management System");
+            Console.SetCursorPosition(0, 6);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("(Press 'n' at any field to cancel and return to menu)");
+            Console.ResetColor();
+            
+            // Display form layout
+            Console.SetCursorPosition(5, 9);
+            Console.Write("First Name     : ");
+            Console.SetCursorPosition(5, 11);
+            Console.Write("Last Name      : ");
+            Console.SetCursorPosition(5, 13);
+            Console.Write("Email          : ");
+            Console.SetCursorPosition(5, 15);
+            Console.Write("Phone          : ");
+            Console.SetCursorPosition(5, 17);
+            Console.Write("Street Number  : ");
+            Console.SetCursorPosition(5, 19);
+            Console.Write("Street         : ");
+            Console.SetCursorPosition(5, 21);
+            Console.Write("City           : ");
+            Console.SetCursorPosition(5, 23);
+            Console.Write("State          : ");
+            Console.SetCursorPosition(5, 25);
+            Console.Write("Password       : ");
             
             try
             {
-                Console.Write("First Name: ");
+                // Get inputs with cursor positioning
+                Console.SetCursorPosition(22, 9);
                 string firstName = Utils.ReadLine();
+                if (firstName.ToLower() == "n") return;
                 
-                Console.Write("Last Name: ");
+                Console.SetCursorPosition(22, 11);
                 string lastName = Utils.ReadLine();
+                if (lastName.ToLower() == "n") return;
                 
                 string fullName = $"{firstName} {lastName}";
                 
-                Console.Write("Email: ");
+                Console.SetCursorPosition(22, 13);
                 string email = Utils.ReadLine();
+                if (email.ToLower() == "n") return;
                 
-                Console.Write("Phone: ");
+                Console.SetCursorPosition(22, 15);
                 string phone = Utils.ReadLine();
+                if (phone.ToLower() == "n") return;
                 
-                Console.Write("Street Number: ");
+                Console.SetCursorPosition(22, 17);
                 string streetNumber = Utils.ReadLine();
+                if (streetNumber.ToLower() == "n") return;
                 
-                Console.Write("Street: ");
+                Console.SetCursorPosition(22, 19);
                 string street = Utils.ReadLine();
+                if (street.ToLower() == "n") return;
                 
-                Console.Write("City: ");
+                Console.SetCursorPosition(22, 21);
                 string city = Utils.ReadLine();
+                if (city.ToLower() == "n") return;
                 
-                Console.Write("State: ");
+                Console.SetCursorPosition(22, 23);
                 string state = Utils.ReadLine();
+                if (state.ToLower() == "n") return;
                 
                 string address = $"{streetNumber} {street}, {city}, {state}";
                 
-                Console.Write("Password: ");
+                Console.SetCursorPosition(22, 25);
                 string password = Utils.ReadLine();
+                if (password.ToLower() == "n") return;
                 
                 // Validate input
                 if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(email) || 
                     string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(address) || 
                     string.IsNullOrWhiteSpace(password))
                 {
-                    Console.WriteLine("\nAll fields are required.");
+                    Console.SetCursorPosition(5, 28);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("All fields are required.");
+                    Console.ResetColor();
+                    Console.SetCursorPosition(5, 29);
+                    Console.WriteLine("Press any key to return...");
                     Console.ReadKey();
                     return;
                 }
@@ -351,14 +464,21 @@ namespace HospitalManagementSystem.Models
                 patients.Add(patient);
                 FileManager.SavePatients(patients);
                 
-                Console.WriteLine($"\n{fullName} added to the system!");
+                Console.SetCursorPosition(5, 28);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"{fullName} added to the system!");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\nError adding patient: {ex.Message}");
+                Console.SetCursorPosition(5, 28);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error adding patient: {ex.Message}");
+                Console.ResetColor();
             }
             
-            Console.WriteLine("\nPress any key to return to Administrator Menu");
+            Console.SetCursorPosition(5, 30);
+            Console.WriteLine("Press any key to return to Administrator Menu");
             Console.ReadKey();
         }
 

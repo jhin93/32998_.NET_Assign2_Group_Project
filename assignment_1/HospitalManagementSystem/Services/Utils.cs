@@ -75,61 +75,6 @@ namespace HospitalManagementSystem
             }
         }
 
-        // Clear console and display header
-        public static void ClearAndDisplayHeader()
-        {
-            Console.Clear();
-            Console.WriteLine("DOTNET Hospital Management System");
-            Console.WriteLine(new string('=', 40));
-        }
-
-        // Validate email format (basic validation)
-        public static bool IsValidEmail(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-                return false;
-
-            return email.Contains("@") && email.Contains(".");
-        }
-
-        // Validate phone number (basic validation)
-        public static bool IsValidPhone(string phone)
-        {
-            if (string.IsNullOrWhiteSpace(phone))
-                return false;
-
-            // Remove spaces and dashes
-            phone = phone.Replace(" ", "").Replace("-", "");
-            
-            // Check if all characters are digits
-            foreach (char c in phone)
-            {
-                if (!char.IsDigit(c))
-                    return false;
-            }
-
-            return phone.Length >= 8 && phone.Length <= 15;
-        }
-
-        // Display error message and wait for key press
-        public static void DisplayError(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\nError: {message}");
-            Console.ResetColor();
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
-        }
-
-        // Display success message and wait for key press
-        public static void DisplaySuccess(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"\n{message}");
-            Console.ResetColor();
-            Console.WriteLine("\nPress any key to continue...");
-            Console.ReadKey();
-        }
 
         // Mask password input
         public static string GetMaskedPassword()
@@ -161,13 +106,6 @@ namespace HospitalManagementSystem
         // Safe console readline that never returns null
         public static string ReadLine()
         {
-            return Console.ReadLine() ?? string.Empty;
-        }
-
-        // Safe console readline with prompt
-        public static string ReadLine(string prompt)
-        {
-            Console.Write(prompt);
             return Console.ReadLine() ?? string.Empty;
         }
     }

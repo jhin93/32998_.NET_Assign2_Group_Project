@@ -3,7 +3,12 @@
     "allow": [
       "Bash(dotnet --version)",
       "Bash(dotnet --list-sdks)",
-      "Bash(dotnet build)"
+      "Bash(dotnet build)",
+      "Read(//Users/kimjinkyeong/Desktop/32998_UTS_14657314/assignment1_doc/**)",
+      "Bash(for file in /Users/kimjinkyeong/Desktop/32998_UTS_14657314/assignment_1/HospitalManagementSystem/Models/*.cs)",
+      "Bash(grep:*)",
+      "Bash(done)",
+      "Bash(dotnet build:*)"
     ],
     "deny": [],
     "ask": []

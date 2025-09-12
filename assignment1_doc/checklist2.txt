@@ -1,0 +1,35 @@
+Do you have some suggestions/comments on potential reasons why marks were deducted for Assignment 1?
+ANSWER: 
+
+The following are some comments/reasons to consider while checking your marks:
+
+1. Make sure to submit the code in the format as mentioned in the specification. 
+
+2. Marks will be deducted if you are not following the specification. It is important for an application developer to understand and develop as per the specification, else the application may not meet the user requirement.
+
+3. Console Design: (Ref: Lecture-4)
+- Setting cursor positions to create a form like console was expected. To assist all the students, live demo was shown with code in Lecture-4. Properties and methods required for creating the console design with setting cursor positions were provided. Live demo of the the system was also shown.
+- If the Input fields are displayed one by one, it doesn't meet the specifications. A formatted form like design was expected.
+- The design of the console form is very basic.
+Note: Sample screen shots were provided in the specification for reference and to assist students to undertand how a typical console design looks like.
+
+4. Code Quality:
+- Comments missing from the code, or comments were not appropriate.
+- Naming convention was not appropriate.
+- For reference check Lab solutions for comments, and namming conventions
+
+5. Implementation and Functionality:
+- If any of the required functionalities were missing, marks were deducted.
+- Marking guide has the specific details.
+
+6. Login and Account text files were not as per the specification, such as | delemited text file, etc.
+
+7. Windows form application was submitted instead of a console application: The submission completely voilated the assignment requirement, students may recieve zero marks.
+
+8. Adding extra functionality and not addressing the specification: No additional marks are provided for extra functionality unless specified as a part of bonus marks. Not addressing specification may/will lead to marks deduction.
+
+
+
+ 
+
+

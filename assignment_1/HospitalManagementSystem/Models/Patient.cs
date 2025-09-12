@@ -166,23 +166,33 @@ namespace HospitalManagementSystem.Models
                 // Check if patient has a registered doctor
                 if (!RegisteredDoctorId.HasValue)
                 {
-                    Console.WriteLine("\nYou are not registered with any doctor! Please choose which doctor you would like to register with");
+                    Console.SetCursorPosition(0, 5);
+                    Console.WriteLine("You are not registered with any doctor!");
+                    Console.SetCursorPosition(0, 6);
+                    Console.WriteLine("Please choose which doctor you would like to register with:");
+                    
                     var doctors = FileManager.LoadDoctors();
                     
                     if (doctors.Count == 0)
                     {
-                        Console.WriteLine("\nNo doctors available in the system.");
+                        Console.SetCursorPosition(5, 8);
+                        Console.WriteLine("No doctors available in the system.");
+                        Console.SetCursorPosition(5, 10);
+                        Console.WriteLine("Press any key to return...");
                         Console.ReadKey();
                         return;
                     }
                     
-                    Console.WriteLine("\nAvailable Doctors:");
+                    Console.SetCursorPosition(0, 8);
+                    Console.WriteLine("Available Doctors:");
                     for (int i = 0; i < doctors.Count; i++)
                     {
+                        Console.SetCursorPosition(5, 10 + i);
                         Console.WriteLine($"{i + 1}. Dr. {doctors[i].Name} | Email: {doctors[i].Email} | Phone: {doctors[i].Phone}");
                     }
                     
-                    Console.Write("\nPlease choose a doctor (enter number): ");
+                    Console.SetCursorPosition(5, 11 + doctors.Count);
+                    Console.Write("Please choose a doctor (enter number): ");
                     if (int.TryParse(Utils.ReadLine(), out int choice) && choice > 0 && choice <= doctors.Count)
                     {
                         RegisteredDoctorId = doctors[choice - 1].Id;
@@ -196,24 +206,45 @@ namespace HospitalManagementSystem.Models
                             FileManager.SavePatients(patients);
                         }
                         
-                        Console.WriteLine($"\nYou are now registered with Dr. {doctors[choice - 1].Name}");
+                        Console.SetCursorPosition(5, 13 + doctors.Count);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"You are now registered with Dr. {doctors[choice - 1].Name}");
+                        Console.ResetColor();
                     }
                     else
                     {
-                        Console.WriteLine("\nInvalid choice.");
+                        Console.SetCursorPosition(5, 13 + doctors.Count);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid choice.");
+                        Console.ResetColor();
+                        Console.SetCursorPosition(5, 14 + doctors.Count);
+                        Console.WriteLine("Press any key to return...");
                         Console.ReadKey();
                         return;
                     }
                 }
                 
-                // Now book the appointment
-                Console.WriteLine("\nYou are booking a new appointment with your registered doctor");
+                // Now book the appointment - using form layout
+                Console.Clear();
+                DisplayMenuHeader("Book Appointment");
+                Console.SetCursorPosition(0, 5);
+                Console.WriteLine("You are booking a new appointment with your registered doctor");
+                
+                Console.SetCursorPosition(5, 8);
                 Console.Write("Description of the appointment: ");
+                Console.SetCursorPosition(5, 10);
+                Console.Write("Enter details: ");
+                Console.SetCursorPosition(20, 10);
                 string description = Utils.ReadLine();
                 
                 if (string.IsNullOrWhiteSpace(description))
                 {
-                    Console.WriteLine("\nDescription cannot be empty.");
+                    Console.SetCursorPosition(5, 13);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Description cannot be empty.");
+                    Console.ResetColor();
+                    Console.SetCursorPosition(5, 14);
+                    Console.WriteLine("Press any key to return...");
                     Console.ReadKey();
                     return;
                 }
@@ -230,14 +261,21 @@ namespace HospitalManagementSystem.Models
                 appointments.Add(appointment);
                 FileManager.SaveAppointments(appointments);
                 
-                Console.WriteLine("\nThe appointment has been booked successfully");
+                Console.SetCursorPosition(5, 13);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("The appointment has been booked successfully");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\nError booking appointment: {ex.Message}");
+                Console.SetCursorPosition(5, 13);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error booking appointment: {ex.Message}");
+                Console.ResetColor();
             }
             
-            Console.WriteLine("\nPress any key to return to Patient Menu");
+            Console.SetCursorPosition(5, 15);
+            Console.WriteLine("Press any key to return to Patient Menu");
             Console.ReadKey();
         }
 

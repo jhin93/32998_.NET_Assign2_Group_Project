@@ -154,7 +154,9 @@ namespace HospitalManagementSystem.Models
             Console.Clear();
             DisplayMenuHeader("Check Patient Details");
             
-            Console.Write("\nEnter the ID of the patient to check: ");
+            Console.SetCursorPosition(5, 6);
+            Console.Write("Enter the ID of the patient to check: ");
+            Console.SetCursorPosition(45, 6);
             if (int.TryParse(Utils.ReadLine(), out int patientId))
             {
                 var patients = FileManager.LoadPatients();
@@ -162,26 +164,36 @@ namespace HospitalManagementSystem.Models
                 
                 if (patient != null)
                 {
-                    Console.WriteLine($"\n{"Patient",-20} | {"Doctor",-20} | {"Email Address",-30} | {"Phone",-15} | {"Address",-30}");
+                    Console.SetCursorPosition(0, 9);
+                    Console.WriteLine($"{"Patient",-20} | {"Doctor",-20} | {"Email Address",-30} | {"Phone",-15} | {"Address",-30}");
+                    Console.SetCursorPosition(0, 10);
                     Console.WriteLine(new string('-', 120));
                     
                     var doctors = FileManager.LoadDoctors();
                     var patientDoctor = doctors.FirstOrDefault(d => d.Id == patient.RegisteredDoctorId);
                     string doctorName = patientDoctor != null ? patientDoctor.Name : "Not assigned";
                     
+                    Console.SetCursorPosition(0, 11);
                     Console.WriteLine($"{patient.Name,-20} | {doctorName,-20} | {patient.Email,-30} | {patient.Phone,-15} | {patient.Address,-30}");
                 }
                 else
                 {
-                    Console.WriteLine($"\nNo patient found with ID: {patientId}");
+                    Console.SetCursorPosition(5, 9);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"No patient found with ID: {patientId}");
+                    Console.ResetColor();
                 }
             }
             else
             {
-                Console.WriteLine("\nInvalid ID format.");
+                Console.SetCursorPosition(5, 9);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid ID format.");
+                Console.ResetColor();
             }
             
-            Console.WriteLine("\nPress any key to return to Doctor Menu");
+            Console.SetCursorPosition(5, 14);
+            Console.WriteLine("Press any key to return to Doctor Menu");
             Console.ReadKey();
         }
 
@@ -190,7 +202,9 @@ namespace HospitalManagementSystem.Models
             Console.Clear();
             DisplayMenuHeader("Appointments With Patient");
             
-            Console.Write("\nEnter the ID of the patient you would like to view appointments for: ");
+            Console.SetCursorPosition(5, 6);
+            Console.Write("Enter the ID of the patient: ");
+            Console.SetCursorPosition(35, 6);
             if (int.TryParse(Utils.ReadLine(), out int patientId))
             {
                 var patients = FileManager.LoadPatients();
@@ -203,30 +217,45 @@ namespace HospitalManagementSystem.Models
                     
                     if (patientAppointments.Count == 0)
                     {
-                        Console.WriteLine($"\nNo appointments found with patient ID: {patientId}");
+                        Console.SetCursorPosition(5, 9);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"No appointments found with patient ID: {patientId}");
+                        Console.ResetColor();
                     }
                     else
                     {
-                        Console.WriteLine($"\n{"Doctor",-20} | {"Patient",-20} | {"Description",-40}");
+                        Console.SetCursorPosition(0, 9);
+                        Console.WriteLine($"{"Doctor",-20} | {"Patient",-20} | {"Description",-40}");
+                        Console.SetCursorPosition(0, 10);
                         Console.WriteLine(new string('-', 85));
                         
+                        int row = 11;
                         foreach (var appointment in patientAppointments)
                         {
+                            Console.SetCursorPosition(0, row);
                             Console.WriteLine($"{Name,-20} | {patient.Name,-20} | {appointment.Description,-40}");
+                            row++;
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"\nNo patient found with ID: {patientId}");
+                    Console.SetCursorPosition(5, 9);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"No patient found with ID: {patientId}");
+                    Console.ResetColor();
                 }
             }
             else
             {
-                Console.WriteLine("\nInvalid ID format.");
+                Console.SetCursorPosition(5, 9);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid ID format.");
+                Console.ResetColor();
             }
             
-            Console.WriteLine("\nPress any key to return to Doctor Menu");
+            Console.SetCursorPosition(5, 20);
+            Console.WriteLine("Press any key to return to Doctor Menu");
             Console.ReadKey();
         }
 

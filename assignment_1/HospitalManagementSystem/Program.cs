@@ -1,22 +1,12 @@
 using HospitalManagementSystem.Models;
-using HospitalManagementSystem.Services;
 using HospitalManagementSystem.Extensions;
 
 namespace HospitalManagementSystem
 {
     internal static class Program
     {
-        private static NotificationService notificationService = new NotificationService();
-
         static void Main(string[] args)
         {
-            // Register notification handlers (demonstrates delegates and anonymous methods)
-            notificationService.RegisterDefaultHandlers();
-            
-            // Example of garbage collection
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
             // Main application loop - runs until Environment.Exit is called
             while (true)
             {
@@ -26,16 +16,17 @@ namespace HospitalManagementSystem
                     
                     if (currentUser != null)
                     {
-                        // Send login notification
-                        notificationService.SendNotification($"{currentUser.Name} has logged in.");
-                        
                         // Show appropriate menu based on user type
                         currentUser.ShowMenu();
                     }
                 }
                 catch (Exception ex)
                 {
-                    Utils.DisplayError($"An unexpected error occurred: {ex.Message}");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"\nAn unexpected error occurred: {ex.Message}");
+                    Console.ResetColor();
+                    Console.WriteLine("\nPress any key to continue...");
+                    Console.ReadKey();
                 }
             }
         }
@@ -45,27 +36,49 @@ namespace HospitalManagementSystem
             while (true)
             {
                 Console.Clear();
+                
+                // Display header
+                Console.SetCursorPosition(0, 0);
                 Console.WriteLine("DOTNET Hospital Management System");
+                Console.SetCursorPosition(0, 1);
                 Console.WriteLine(new string('-', 40));
+                Console.SetCursorPosition(0, 2);
                 Console.WriteLine("Login");
+                Console.SetCursorPosition(0, 3);
                 Console.WriteLine(new string('-', 40));
+                
+                // Display form layout
+                Console.SetCursorPosition(5, 6);
+                Console.Write("ID       : ");
+                Console.SetCursorPosition(5, 8);
+                Console.Write("Password : ");
+                
+                // Display instructions
+                Console.SetCursorPosition(5, 11);
+                Console.Write("(Type 'exit' as ID to quit)");
                 
                 try
                 {
-                    Console.Write("\nID: ");
+                    // Get ID input
+                    Console.SetCursorPosition(16, 6);
                     string? idInput = Console.ReadLine();
                     
                     // Check for exit command
                     if (idInput?.ToLower() == "exit")
                     {
-                        Console.WriteLine("\nExiting application...");
+                        Console.SetCursorPosition(5, 13);
+                        Console.WriteLine("Exiting application...");
                         Environment.Exit(0);
                     }
                     
                     // Validate ID using extension method
                     if (string.IsNullOrEmpty(idInput) || !idInput.IsValidId())
                     {
-                        Console.WriteLine("\nInvalid ID format. ID must be between 5-8 digits.");
+                        Console.SetCursorPosition(5, 13);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Invalid ID format. ID must be between 5-8 digits.");
+                        Console.ResetColor();
+                        Console.SetCursorPosition(5, 14);
                         Console.WriteLine("Press any key to try again...");
                         Console.ReadKey();
                         continue;
@@ -73,7 +86,8 @@ namespace HospitalManagementSystem
                     
                     int id = int.Parse(idInput);
                     
-                    Console.Write("Password: ");
+                    // Get Password input
+                    Console.SetCursorPosition(16, 8);
                     string password = Utils.GetMaskedPassword();
                     
                     // Validate credentials
@@ -81,29 +95,43 @@ namespace HospitalManagementSystem
                     
                     if (user != null)
                     {
-                        Console.WriteLine("\nValid Credentials");
+                        Console.SetCursorPosition(5, 13);
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Valid Credentials");
+                        Console.ResetColor();
+                        Console.SetCursorPosition(5, 14);
                         Console.WriteLine("Press any key to continue...");
                         Console.ReadKey();
                         return user;
                     }
                     else
                     {
+                        Console.SetCursorPosition(5, 13);
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("\nInvalid Credentials");
+                        Console.WriteLine("Invalid Credentials");
                         Console.ResetColor();
+                        Console.SetCursorPosition(5, 14);
                         Console.WriteLine("Press any key to try again...");
                         Console.ReadKey();
                     }
                 }
                 catch (FormatException)
                 {
-                    Console.WriteLine("\nInvalid input format. Please enter numeric ID.");
+                    Console.SetCursorPosition(5, 13);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid input format. Please enter numeric ID.");
+                    Console.ResetColor();
+                    Console.SetCursorPosition(5, 14);
                     Console.WriteLine("Press any key to try again...");
                     Console.ReadKey();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"\nError during login: {ex.Message}");
+                    Console.SetCursorPosition(5, 13);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error during login: {ex.Message}");
+                    Console.ResetColor();
+                    Console.SetCursorPosition(5, 14);
                     Console.WriteLine("Press any key to try again...");
                     Console.ReadKey();
                 }
