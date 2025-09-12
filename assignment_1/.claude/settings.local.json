@@ -22,7 +22,8 @@
       "Bash(for file in Models/*.cs Services/*.cs Extensions/*.cs *.cs)",
       "Bash(do if [ -f \"$file\" ])",
       "Bash(then echo \"=== $file ===\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Read(//Users/kimjinkyeong/Desktop/32998_UTS_14657314/**)"
     ],
     "deny": [],
     "ask": []

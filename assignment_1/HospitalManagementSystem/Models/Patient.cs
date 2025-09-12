@@ -56,8 +56,8 @@ namespace HospitalManagementSystem.Models
                 Console.WriteLine("2. List my doctor details");
                 Console.WriteLine("3. List all appointments");
                 Console.WriteLine("4. Book appointment");
-                Console.WriteLine("5. Exit to login");
-                Console.WriteLine("6. Exit System");
+                Console.WriteLine("5. Logout");
+                Console.WriteLine("6. Exit");
                 Console.Write("\nChoice: ");
 
                 try
