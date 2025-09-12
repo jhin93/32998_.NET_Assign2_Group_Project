@@ -1,4 +1,6 @@
-32998 Hospital Management System
+32998 .NET Application Development - Spring 2025
+
+SSIGNMENT-1: C# Console Application (Hospital Management System)
 14657314 Jinkyung Kim
 ==================================
 
