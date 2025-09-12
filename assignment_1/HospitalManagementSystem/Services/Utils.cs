@@ -13,13 +13,13 @@ namespace HospitalManagementSystem
             LoadUsedIds();
         }
 
-        // Generate unique ID (5-8 digits)
+        // Generate unique ID (5 digits for consistency with existing data)
         public static int GenerateId()
         {
             int id;
             do
             {
-                id = random.Next(10000, 99999999); // 5 to 8 digits
+                id = random.Next(10000, 99999); // 5 digits to match existing format
             } while (usedIds.Contains(id));
 
             usedIds.Add(id);
@@ -27,11 +27,12 @@ namespace HospitalManagementSystem
             return id;
         }
 
-        // Load used IDs from file
+        // Load used IDs from file and existing data files
         private static void LoadUsedIds()
         {
             try
             {
+                // If usedIds.txt exists, load from it
                 if (File.Exists(IdFile))
                 {
                     var lines = File.ReadAllLines(IdFile);
@@ -43,10 +44,104 @@ namespace HospitalManagementSystem
                         }
                     }
                 }
+                else
+                {
+                    // Only load from data files if usedIds.txt doesn't exist
+                    LoadExistingIds();
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error loading used IDs: {ex.Message}");
+            }
+        }
+        
+        // Load existing IDs from all data files
+        private static void LoadExistingIds()
+        {
+            try
+            {
+                // Load patient IDs
+                string patientsFile = Path.Combine("Data", "patients.txt");
+                if (File.Exists(patientsFile))
+                {
+                    var lines = File.ReadAllLines(patientsFile);
+                    foreach (var line in lines)
+                    {
+                        if (!string.IsNullOrWhiteSpace(line))
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length > 0 && int.TryParse(parts[0], out int id))
+                            {
+                                usedIds.Add(id);
+                            }
+                        }
+                    }
+                }
+                
+                // Load doctor IDs
+                string doctorsFile = Path.Combine("Data", "doctors.txt");
+                if (File.Exists(doctorsFile))
+                {
+                    var lines = File.ReadAllLines(doctorsFile);
+                    foreach (var line in lines)
+                    {
+                        if (!string.IsNullOrWhiteSpace(line))
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length > 0 && int.TryParse(parts[0], out int id))
+                            {
+                                usedIds.Add(id);
+                            }
+                        }
+                    }
+                }
+                
+                // Load admin IDs
+                string adminsFile = Path.Combine("Data", "admins.txt");
+                if (File.Exists(adminsFile))
+                {
+                    var lines = File.ReadAllLines(adminsFile);
+                    foreach (var line in lines)
+                    {
+                        if (!string.IsNullOrWhiteSpace(line))
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length > 0 && int.TryParse(parts[0], out int id))
+                            {
+                                usedIds.Add(id);
+                            }
+                        }
+                    }
+                }
+                
+                // Load appointment IDs
+                string appointmentsFile = Path.Combine("Data", "appointments.txt");
+                if (File.Exists(appointmentsFile))
+                {
+                    var lines = File.ReadAllLines(appointmentsFile);
+                    foreach (var line in lines)
+                    {
+                        if (!string.IsNullOrWhiteSpace(line))
+                        {
+                            var parts = line.Split('|');
+                            if (parts.Length > 0 && int.TryParse(parts[0], out int id))
+                            {
+                                usedIds.Add(id);
+                            }
+                        }
+                    }
+                }
+                
+                // Only save if usedIds.txt doesn't exist yet
+                if (!File.Exists(IdFile) && usedIds.Count > 0)
+                {
+                    SaveUsedIds();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading existing IDs: {ex.Message}");
             }
         }
 

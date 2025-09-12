@@ -16,13 +16,13 @@ namespace HospitalManagementSystem.Models
         // Constructor
         protected User()
         {
-            Id = Utils.GenerateId();
+            // Do not generate ID here - it will be set when loading from file or when creating new user
         }
 
-        // Constructor with parameters (method overloading)
+        // Constructor with parameters (method overloading) - for new users only
         protected User(string name, string email, string phone, string address, string password)
         {
-            Id = Utils.GenerateId();
+            Id = Utils.GenerateId(); // Generate ID only for new users
             Name = name;
             Email = email;
             Phone = phone;

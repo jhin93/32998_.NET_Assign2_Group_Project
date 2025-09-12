@@ -164,6 +164,7 @@ namespace HospitalManagementSystem.Models
             try
             {
                 // Check if patient has a registered doctor
+                // Patient can only register with a doctor once - cannot change later
                 if (!RegisteredDoctorId.HasValue)
                 {
                     Console.SetCursorPosition(0, 5);
@@ -249,12 +250,8 @@ namespace HospitalManagementSystem.Models
                     return;
                 }
                 
-                var appointment = new Appointment
-                {
-                    DoctorId = RegisteredDoctorId.Value,
-                    PatientId = Id,
-                    Description = description
-                };
+                // Use parameterized constructor to generate new ID
+                var appointment = new Appointment(RegisteredDoctorId.Value, Id, description);
                 
                 // Save appointment
                 var appointments = FileManager.LoadAppointments();

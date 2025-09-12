@@ -14,13 +14,13 @@ namespace HospitalManagementSystem.Models
         // Default constructor
         public Appointment()
         {
-            Id = Utils.GenerateId();
+            // Do not generate ID here - it will be set when loading from file
         }
 
-        // Parameterized constructor (method overloading)
+        // Parameterized constructor (method overloading) - for new appointments only
         public Appointment(int doctorId, int patientId, string description)
         {
-            Id = Utils.GenerateId();
+            Id = Utils.GenerateId(); // Generate ID only for new appointments
             DoctorId = doctorId;
             PatientId = patientId;
             Description = description;
