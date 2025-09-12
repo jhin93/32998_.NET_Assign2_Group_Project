@@ -18,7 +18,11 @@
       "Bash(echo \"Run $i completed\")",
       "Bash(do echo -e \"12312\\nmat123\\n7\")",
       "Bash(echo:*)",
-      "Bash(printf:*)"
+      "Bash(printf:*)",
+      "Bash(for file in Models/*.cs Services/*.cs Extensions/*.cs *.cs)",
+      "Bash(do if [ -f \"$file\" ])",
+      "Bash(then echo \"=== $file ===\")",
+      "Bash(fi)"
     ],
     "deny": [],
     "ask": []

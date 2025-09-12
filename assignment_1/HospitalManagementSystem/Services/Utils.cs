@@ -1,6 +1,8 @@
 namespace HospitalManagementSystem
 {
-    // Static utility class for common functionality
+    /// <summary>
+    /// Provides utility methods for common functionality
+    /// </summary>
     public static class Utils
     {
         private static Random random = new Random();
@@ -13,7 +15,10 @@ namespace HospitalManagementSystem
             LoadUsedIds();
         }
 
-        // Generate unique ID (5 digits for consistency with existing data)
+        /// <summary>
+        /// Generates a unique 5-digit ID
+        /// </summary>
+        /// <returns>A unique integer ID</returns>
         public static int GenerateId()
         {
             int id;
@@ -171,7 +176,10 @@ namespace HospitalManagementSystem
         }
 
 
-        // Mask password input
+        /// <summary>
+        /// Gets password input with masking for security
+        /// </summary>
+        /// <returns>The entered password</returns>
         public static string GetMaskedPassword()
         {
             string password = "";
@@ -198,7 +206,10 @@ namespace HospitalManagementSystem
             return password;
         }
 
-        // Safe console readline that never returns null
+        /// <summary>
+        /// Reads a line from console input, never returns null
+        /// </summary>
+        /// <returns>The input string or empty string if null</returns>
         public static string ReadLine()
         {
             return Console.ReadLine() ?? string.Empty;

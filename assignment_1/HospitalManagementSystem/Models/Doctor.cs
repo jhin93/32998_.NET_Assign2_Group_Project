@@ -1,26 +1,42 @@
 namespace HospitalManagementSystem.Models
 {
-    // Doctor class inheriting from User
+    /// <summary>
+    /// Represents a doctor in the hospital management system
+    /// </summary>
     public class Doctor : User
     {
-        // Default constructor
+        /// <summary>
+        /// Initializes a new instance of the Doctor class
+        /// </summary>
         public Doctor() : base()
         {
         }
 
-        // Parameterized constructor
+        /// <summary>
+        /// Initializes a new instance of the Doctor class with specified parameters
+        /// </summary>
+        /// <param name="name">The name of the doctor</param>
+        /// <param name="email">The email address of the doctor</param>
+        /// <param name="phone">The phone number of the doctor</param>
+        /// <param name="address">The physical address of the doctor</param>
+        /// <param name="password">The password for the doctor</param>
         public Doctor(string name, string email, string phone, string address, string password) 
             : base(name, email, phone, address, password)
         {
         }
 
-        // Override ToString method
+        /// <summary>
+        /// Returns a string representation of the doctor
+        /// </summary>
+        /// <returns>A formatted string containing doctor information</returns>
         public override string ToString()
         {
             return $"{Name} | {Email} | {Phone} | {Address}";
         }
 
-        // Override ShowMenu method
+        /// <summary>
+        /// Shows the doctor menu with available options
+        /// </summary>
         public override void ShowMenu()
         {
             bool exit = false;

@@ -2,7 +2,9 @@ using HospitalManagementSystem.Models;
 
 namespace HospitalManagementSystem
 {
-    // Static class for managing file operations
+    /// <summary>
+    /// Manages file operations for persisting data
+    /// </summary>
     public static class FileManager
     {
         private static readonly string DataDirectory = "Data";
@@ -11,7 +13,9 @@ namespace HospitalManagementSystem
         private static readonly string AdminsFile = Path.Combine(DataDirectory, "admins.txt");
         private static readonly string AppointmentsFile = Path.Combine(DataDirectory, "appointments.txt");
 
-        // Static constructor to ensure data directory exists
+        /// <summary>
+        /// Static constructor to ensure data directory exists
+        /// </summary>
         static FileManager()
         {
             if (!Directory.Exists(DataDirectory))
@@ -20,7 +24,10 @@ namespace HospitalManagementSystem
             }
         }
 
-        // Load Patients from file
+        /// <summary>
+        /// Loads all patients from the data file
+        /// </summary>
+        /// <returns>A list of patients</returns>
         public static List<Patient> LoadPatients()
         {
             var patients = new List<Patient>();
@@ -66,7 +73,10 @@ namespace HospitalManagementSystem
             return patients;
         }
 
-        // Save Patients to file
+        /// <summary>
+        /// Saves patients to the data file
+        /// </summary>
+        /// <param name="patients">The list of patients to save</param>
         public static void SavePatients(List<Patient> patients)
         {
             try
@@ -85,7 +95,10 @@ namespace HospitalManagementSystem
             }
         }
 
-        // Load Doctors from file
+        /// <summary>
+        /// Loads all doctors from the data file
+        /// </summary>
+        /// <returns>A list of doctors</returns>
         public static List<Doctor> LoadDoctors()
         {
             var doctors = new List<Doctor>();
@@ -125,7 +138,10 @@ namespace HospitalManagementSystem
             return doctors;
         }
 
-        // Save Doctors to file
+        /// <summary>
+        /// Saves doctors to the data file
+        /// </summary>
+        /// <param name="doctors">The list of doctors to save</param>
         public static void SaveDoctors(List<Doctor> doctors)
         {
             try
@@ -143,7 +159,10 @@ namespace HospitalManagementSystem
             }
         }
 
-        // Load Administrators from file
+        /// <summary>
+        /// Loads all administrators from the data file
+        /// </summary>
+        /// <returns>A list of administrators</returns>
         public static List<Administrator> LoadAdministrators()
         {
             var admins = new List<Administrator>();
@@ -183,7 +202,10 @@ namespace HospitalManagementSystem
             return admins;
         }
 
-        // Save Administrators to file
+        /// <summary>
+        /// Saves administrators to the data file
+        /// </summary>
+        /// <param name="admins">The list of administrators to save</param>
         public static void SaveAdministrators(List<Administrator> admins)
         {
             try
@@ -201,7 +223,10 @@ namespace HospitalManagementSystem
             }
         }
 
-        // Load Appointments from file
+        /// <summary>
+        /// Loads all appointments from the data file
+        /// </summary>
+        /// <returns>A list of appointments</returns>
         public static List<Appointment> LoadAppointments()
         {
             var appointments = new List<Appointment>();
@@ -239,7 +264,10 @@ namespace HospitalManagementSystem
             return appointments;
         }
 
-        // Save Appointments to file
+        /// <summary>
+        /// Saves appointments to the data file
+        /// </summary>
+        /// <param name="appointments">The list of appointments to save</param>
         public static void SaveAppointments(List<Appointment> appointments)
         {
             try
@@ -257,7 +285,12 @@ namespace HospitalManagementSystem
             }
         }
 
-        // Find user by ID and password (for login)
+        /// <summary>
+        /// Finds a user by ID and password for authentication
+        /// </summary>
+        /// <param name="id">The user ID</param>
+        /// <param name="password">The user password</param>
+        /// <returns>The user if found and authenticated, null otherwise</returns>
         public static User? FindUser(int id, string password)
         {
             // Check patients

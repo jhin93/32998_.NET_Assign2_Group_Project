@@ -1,30 +1,48 @@
 namespace HospitalManagementSystem.Models
 {
-    // Patient class inheriting from User
+    /// <summary>
+    /// Represents a patient in the hospital management system
+    /// </summary>
     public class Patient : User
     {
-        // Properties specific to Patient
+        /// <summary>
+        /// Gets or sets the ID of the doctor the patient is registered with
+        /// </summary>
         public int? RegisteredDoctorId { get; set; }
 
-        // Default constructor
+        /// <summary>
+        /// Initializes a new instance of the Patient class
+        /// </summary>
         public Patient() : base()
         {
         }
 
-        // Parameterized constructor
+        /// <summary>
+        /// Initializes a new instance of the Patient class with specified parameters
+        /// </summary>
+        /// <param name="name">The name of the patient</param>
+        /// <param name="email">The email address of the patient</param>
+        /// <param name="phone">The phone number of the patient</param>
+        /// <param name="address">The physical address of the patient</param>
+        /// <param name="password">The password for the patient</param>
         public Patient(string name, string email, string phone, string address, string password) 
             : base(name, email, phone, address, password)
         {
         }
 
-        // Override ToString method
+        /// <summary>
+        /// Returns a string representation of the patient
+        /// </summary>
+        /// <returns>A formatted string containing patient information</returns>
         public override string ToString()
         {
             string doctorInfo = RegisteredDoctorId.HasValue ? RegisteredDoctorId.Value.ToString() : "None";
             return $"{Name} | {Id} | {Email} | {Phone} | {Address}";
         }
 
-        // Override ShowMenu method
+        /// <summary>
+        /// Shows the patient menu with available options
+        /// </summary>
         public override void ShowMenu()
         {
             bool exit = false;

@@ -1,26 +1,42 @@
 namespace HospitalManagementSystem.Models
 {
-    // Administrator class inheriting from User
+    /// <summary>
+    /// Represents an administrator in the hospital management system
+    /// </summary>
     public class Administrator : User
     {
-        // Default constructor
+        /// <summary>
+        /// Initializes a new instance of the Administrator class
+        /// </summary>
         public Administrator() : base()
         {
         }
 
-        // Parameterized constructor
+        /// <summary>
+        /// Initializes a new instance of the Administrator class with specified parameters
+        /// </summary>
+        /// <param name="name">The name of the administrator</param>
+        /// <param name="email">The email address of the administrator</param>
+        /// <param name="phone">The phone number of the administrator</param>
+        /// <param name="address">The physical address of the administrator</param>
+        /// <param name="password">The password for the administrator</param>
         public Administrator(string name, string email, string phone, string address, string password) 
             : base(name, email, phone, address, password)
         {
         }
 
-        // Override ToString method
+        /// <summary>
+        /// Returns a string representation of the administrator
+        /// </summary>
+        /// <returns>A formatted string containing administrator information</returns>
         public override string ToString()
         {
             return $"{Name} | {Email} | {Phone} | {Address}";
         }
 
-        // Override ShowMenu method
+        /// <summary>
+        /// Shows the administrator menu with available options
+        /// </summary>
         public override void ShowMenu()
         {
             bool exit = false;

@@ -2,24 +2,57 @@ using System;
 
 namespace HospitalManagementSystem.Models
 {
-    // Base class for all users in the system
+    /// <summary>
+    /// Base class for all users in the hospital management system
+    /// </summary>
     public abstract class User
     {
-        // Properties
+        /// <summary>
+        /// Gets or sets the unique identifier for the user
+        /// </summary>
         public int Id { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the password for user authentication
+        /// </summary>
         public string Password { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Gets or sets the full name of the user
+        /// </summary>
         public string Name { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Gets or sets the email address of the user
+        /// </summary>
         public string Email { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Gets or sets the phone number of the user
+        /// </summary>
         public string Phone { get; set; } = string.Empty;
+        
+        /// <summary>
+        /// Gets or sets the physical address of the user
+        /// </summary>
         public string Address { get; set; } = string.Empty;
 
-        // Constructor
+        /// <summary>
+        /// Initializes a new instance of the User class
+        /// </summary>
         protected User()
         {
             // Do not generate ID here - it will be set when loading from file or when creating new user
         }
 
-        // Constructor with parameters (method overloading) - for new users only
+        /// <summary>
+        /// Initializes a new instance of the User class with specified parameters
+        /// </summary>
+        /// <param name="name">The name of the user</param>
+        /// <param name="email">The email address of the user</param>
+        /// <param name="phone">The phone number of the user</param>
+        /// <param name="address">The physical address of the user</param>
+        /// <param name="password">The password for the user</param>
         protected User(string name, string email, string phone, string address, string password)
         {
             Id = Utils.GenerateId(); // Generate ID only for new users
@@ -30,16 +63,23 @@ namespace HospitalManagementSystem.Models
             Password = password;
         }
 
-        // Abstract method to be overridden by derived classes
+        /// <summary>
+        /// Shows the menu specific to the user type
+        /// </summary>
         public abstract void ShowMenu();
 
-        // Virtual method that can be overridden
+        /// <summary>
+        /// Returns a string representation of the user
+        /// </summary>
+        /// <returns>A formatted string containing user information</returns>
         public override string ToString()
         {
             return $"{Id} | {Name} | {Email} | {Phone} | {Address}";
         }
 
-        // Method to display user details
+        /// <summary>
+        /// Displays the user details to the console
+        /// </summary>
         public virtual void DisplayDetails()
         {
             Console.WriteLine($"ID: {Id}");

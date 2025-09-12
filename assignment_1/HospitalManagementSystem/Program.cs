@@ -3,8 +3,15 @@ using HospitalManagementSystem.Extensions;
 
 namespace HospitalManagementSystem
 {
+    /// <summary>
+    /// Main program class for the Hospital Management System
+    /// </summary>
     internal static class Program
     {
+        /// <summary>
+        /// Entry point of the application
+        /// </summary>
+        /// <param name="args">Command line arguments</param>
         static void Main(string[] args)
         {
             // Main application loop - runs until Environment.Exit is called
