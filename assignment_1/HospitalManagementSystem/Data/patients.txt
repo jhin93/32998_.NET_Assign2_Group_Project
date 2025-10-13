@@ -1,4 +1,0 @@
-26685|Samuel Jackson|sam7@gmail.com|0412456876|19 Real Street, Sydney, NSW|sam123|96588
-48775|Jeremy Irons|jam@gmail.com|0412341234|10 Real Place, Sydney, NSW|jem123|96588
-86559|Emily Blont|emily@email.com|0423456789|25 Park Road, Melbourne, VIC|emily456|45675
-44658|Tom Holand|tom.w@gmail.com|0434567890|30 Beach Ave, Brisbane, QLD|tom789|54665

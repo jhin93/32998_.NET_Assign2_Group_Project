@@ -1,5 +1,0 @@
-10001|12342|13267|Regular checkup with doc
-10002|12342|13267|Cold symptoms
-10003|12342|83618|Covid test
-10004|98765|54321|Annual physical examination
-10005|45678|67890|Flu vaccination

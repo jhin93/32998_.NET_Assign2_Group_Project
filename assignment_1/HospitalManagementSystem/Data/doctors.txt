@@ -1,3 +1,0 @@
-96588|Faust Lichtenstein|drfaust@email.com|0412333676|23 Real Street, Sydney, NSW|doc123
-45675|Sam Smith|sam.smith@hospital.com|0412456789|15 Medical Ave, Melbourne, VIC|pass456
-54665|Michael Jackson|jackson@doctors.com|0423567890|8 Health St, Brisbane, QLD|jack789
