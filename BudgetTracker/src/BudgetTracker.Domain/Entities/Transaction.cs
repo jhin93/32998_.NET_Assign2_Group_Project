@@ -70,6 +70,49 @@ public abstract class Transaction
     }
 
     /// <summary>
+    /// Property: Formatted amount string
+    /// Phase 6.18: Properties implementation
+    /// </summary>
+    public string FormattedAmount => GetFormattedAmount();
+
+    /// <summary>
+    /// Property: Formatted date string
+    /// </summary>
+    public string FormattedDate => Date.ToString("yyyy-MM-dd");
+
+    /// <summary>
+    /// Property: Short formatted date string
+    /// </summary>
+    public string ShortDate => Date.ToString("MMM dd, yyyy");
+
+    /// <summary>
+    /// Property: Transaction age in days
+    /// </summary>
+    public int AgeInDays => (DateTime.Today - Date.Date).Days;
+
+    /// <summary>
+    /// Property: Is this transaction from current month
+    /// </summary>
+    public bool IsCurrentMonth => Date.Year == DateTime.Today.Year && Date.Month == DateTime.Today.Month;
+
+    /// <summary>
+    /// Property: Is this transaction from current year
+    /// </summary>
+    public bool IsCurrentYear => Date.Year == DateTime.Today.Year;
+
+    /// <summary>
+    /// Property: Transaction category name (if category is loaded)
+    /// </summary>
+    public string CategoryName => Category?.Name ?? "Unknown";
+
+    /// <summary>
+    /// Property: Recurrence frequency display text
+    /// </summary>
+    public string RecurrenceText => RecurrenceFrequency == Frequency.None
+        ? "One-time"
+        : RecurrenceFrequency.ToString();
+
+    /// <summary>
     /// Sets up recurring transaction
     /// </summary>
     public void SetRecurrence(Frequency frequency, DateTime? endDate = null)

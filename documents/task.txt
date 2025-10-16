@@ -124,12 +124,12 @@ Phase 5: Reports & Analytics
 ----------------------------------------
 Phase 6: Advanced Features & Testing
 ----------------------------------------
-17. [ ] Recurring Transaction Feature
+17. [V] Recurring Transaction Feature
     - RecurringTransactionService
     - Weekly/Monthly/Yearly recurrence
     - IRecurring interface implementation
 
-18. [ ] Properties & Extension Methods Implementation
+18. [V] Properties & Extension Methods Implementation
     - Properties: Transaction.FormattedAmount
     - Extension Methods: decimal.ToCurrency()
 
