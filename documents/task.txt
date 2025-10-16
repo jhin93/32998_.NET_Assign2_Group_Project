@@ -33,7 +33,7 @@ Phase 1: Basic Setup & Infrastructure (Settings)
    - SeedData (Initial test data)
    - (Optional) Entity Framework + Database integration ★ Bonus 3pts
 
-5. [ ] SettingsForm Implementation (Demo Step 1)
+5. [V] SettingsForm Implementation (Demo Step 1)
    - Category management (Add/Edit/Delete)
    - Account management (Add/Edit/Delete)
    - UI Controls: DataGridView, Button, TextBox, ComboBox
