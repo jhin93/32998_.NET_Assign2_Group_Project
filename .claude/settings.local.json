@@ -13,7 +13,8 @@
       "Bash(tree:*)",
       "Bash(dotnet add reference:*)",
       "Bash(cd:*)",
-      "Read(//Users/kimjinkyeong/Desktop/**)"
+      "Read(//Users/kimjinkyeong/Desktop/**)",
+      "Bash(dotnet add:*)"
     ],
     "deny": [],
     "ask": []

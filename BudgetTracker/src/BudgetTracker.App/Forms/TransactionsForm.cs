@@ -1,5 +1,6 @@
 using BudgetTracker.Domain.Entities;
 using BudgetTracker.Domain.ValueObjects;
+using BudgetTracker.Core.Events;
 
 namespace BudgetTracker.App.Forms;
 
@@ -551,6 +552,9 @@ public partial class TransactionsForm : Form
                 Program.TransactionRepository.Add(transaction);
                 Program.TransactionRepository.SaveChanges();
 
+                // Raise event for inter-form communication
+                EventManager.OnTransactionAdded(transaction);
+
                 LoadTransactions();
 
                 MessageBox.Show("Transaction added successfully!", "Success",
@@ -609,6 +613,9 @@ public partial class TransactionsForm : Form
                 Program.TransactionRepository.Update(transaction);
                 Program.TransactionRepository.SaveChanges();
 
+                // Raise event for inter-form communication
+                EventManager.OnTransactionUpdated(transaction);
+
                 LoadTransactions();
 
                 MessageBox.Show("Transaction updated successfully!", "Success",
@@ -655,6 +662,9 @@ public partial class TransactionsForm : Form
             {
                 Program.TransactionRepository.Remove(transaction);
                 Program.TransactionRepository.SaveChanges();
+
+                // Raise event for inter-form communication
+                EventManager.OnTransactionDeleted(transaction);
 
                 LoadTransactions();
 

@@ -28,7 +28,7 @@ static class Program
         // Configure application
         ApplicationConfiguration.Initialize();
 
-        // Run the main form (SettingsForm for now)
-        Application.Run(new SettingsForm());
+        // Run the main form (DashboardForm)
+        Application.Run(new DashboardForm());
     }
 }

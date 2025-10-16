@@ -1,5 +1,6 @@
 using BudgetTracker.Domain.Entities;
 using BudgetTracker.Domain.ValueObjects;
+using BudgetTracker.Core.Events;
 
 namespace BudgetTracker.App.Forms;
 
@@ -426,6 +427,9 @@ public partial class BudgetsForm : Form
                 Program.BudgetRepository.Add(budget);
                 Program.BudgetRepository.SaveChanges();
 
+                // Raise event for inter-form communication
+                EventManager.OnBudgetAdded(budget);
+
                 LoadBudgets();
 
                 MessageBox.Show("Budget added successfully!", "Success",
@@ -464,6 +468,9 @@ public partial class BudgetsForm : Form
                 Program.BudgetRepository.Update(_selectedBudget);
                 Program.BudgetRepository.SaveChanges();
 
+                // Raise event for inter-form communication
+                EventManager.OnBudgetUpdated(_selectedBudget);
+
                 LoadBudgets();
 
                 MessageBox.Show("Budget updated successfully!", "Success",
@@ -497,8 +504,12 @@ public partial class BudgetsForm : Form
         {
             try
             {
+                var budgetToDelete = _selectedBudget;
                 Program.BudgetRepository.Remove(_selectedBudget);
                 Program.BudgetRepository.SaveChanges();
+
+                // Raise event for inter-form communication
+                EventManager.OnBudgetDeleted(budgetToDelete);
 
                 _selectedBudget = null;
                 LoadBudgets();

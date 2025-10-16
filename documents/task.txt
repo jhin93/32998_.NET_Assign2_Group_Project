@@ -49,7 +49,7 @@ Phase 2: Core Features - Transaction Management
    - Amount input (with validation)
    - UI Controls: DataGridView, Button, DatePicker, ComboBox, TextBox
 
-7. [ ] Transaction Filtering & Search Features ★ LINQ + Lambda
+7. [V] Transaction Filtering & Search Features ★ LINQ + Lambda
    - Date range filter
    - Category filter
    - Income/Expense type filter
@@ -84,14 +84,14 @@ Phase 3: Budget Management
 ----------------------------------------
 Phase 4: Dashboard & Visualization
 ----------------------------------------
-12. [ ] DashboardForm Implementation (Demo Step 4)
+12. [V] DashboardForm Implementation (Demo Step 4)
     - Total balance display
     - Recent transactions summary
     - Budget status (ProgressBar)
-    - Spending trend chart (Chart Control) ★ Visualization
-    - UI Controls: Chart, ProgressBar, Panel, Label, Button
+    - Spending summary by category (DataGridView) ★ Visualization
+    - UI Controls: DataGridView, ProgressBar, Panel, Label, Button
 
-13. [ ] Inter-Form Communication Implementation ★ Delegates & Events
+13. [V] Inter-Form Communication Implementation ★ Delegates & Events
     - TransactionAdded Event
     - BudgetUpdated Event
     - CategoryChanged Event
