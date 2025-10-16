@@ -109,14 +109,14 @@ Phase 5: Reports & Analytics
     - Bar Chart (monthly spending comparison)
     - UI Controls: Chart, DatePicker, Button, ComboBox
 
-15. [ ] ReportService Implementation ★ LINQ + Lambda Expression
+15. [V] ReportService Implementation ★ LINQ + Lambda Expression
     - var categoryReport = transactions
         .GroupBy(t => t.Category)
         .Select(g => new { Category = g.Key, Total = g.Sum(t => t.Amount) })
         .OrderByDescending(x => x.Total)
         .ToList();
 
-16. [ ] Export Functionality
+16. [V] Export Functionality
     - PDF export (optional)
     - CSV export
     - Report save
