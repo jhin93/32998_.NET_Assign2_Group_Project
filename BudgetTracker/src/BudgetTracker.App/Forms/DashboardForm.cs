@@ -48,9 +48,9 @@ public partial class DashboardForm : Form
     {
         // Form settings
         this.Text = "Budget Tracker - Dashboard";
-        this.Size = new Size(1200, 800);
+        this.Size = new Size(1200, 1600);
         this.StartPosition = FormStartPosition.CenterScreen;
-        this.MinimumSize = new Size(1000, 700);
+        this.MinimumSize = new Size(1000, 1400);
 
         // Title
         lblTitle = new Label
@@ -139,8 +139,8 @@ public partial class DashboardForm : Form
         pnlRecentTransactions = new Panel
         {
             Location = new Point(20, 180),
-            Size = new Size(560, 280),
-            Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Bottom,
+            Size = new Size(560, 840),
+            Anchor = AnchorStyles.Top | AnchorStyles.Left,
             BorderStyle = BorderStyle.FixedSingle
         };
 
@@ -155,7 +155,7 @@ public partial class DashboardForm : Form
         dgvRecentTransactions = new DataGridView
         {
             Location = new Point(10, 45),
-            Size = new Size(535, 220),
+            Size = new Size(535, 780),
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom,
             AllowUserToAddRows = false,
             AllowUserToDeleteRows = false,
@@ -189,8 +189,8 @@ public partial class DashboardForm : Form
         pnlBudgetStatus = new Panel
         {
             Location = new Point(600, 180),
-            Size = new Size(560, 280),
-            Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom,
+            Size = new Size(560, 840),
+            Anchor = AnchorStyles.Top | AnchorStyles.Right,
             BorderStyle = BorderStyle.FixedSingle,
             AutoScroll = true
         };
@@ -206,7 +206,7 @@ public partial class DashboardForm : Form
         flowBudgetStatus = new FlowLayoutPanel
         {
             Location = new Point(10, 45),
-            Size = new Size(530, 220),
+            Size = new Size(530, 780),
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom,
             FlowDirection = FlowDirection.TopDown,
             WrapContents = false,
@@ -218,8 +218,8 @@ public partial class DashboardForm : Form
         // Spending Summary Panel
         pnlSpendingSummary = new Panel
         {
-            Location = new Point(20, 475),
-            Size = new Size(1140, 225),
+            Location = new Point(20, 1040),
+            Size = new Size(1140, 450),
             Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom,
             BorderStyle = BorderStyle.FixedSingle
         };
@@ -235,7 +235,7 @@ public partial class DashboardForm : Form
         dgvSpendingSummary = new DataGridView
         {
             Location = new Point(10, 45),
-            Size = new Size(1115, 165),
+            Size = new Size(1115, 390),
             Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom,
             AllowUserToAddRows = false,
             AllowUserToDeleteRows = false,
@@ -276,7 +276,7 @@ public partial class DashboardForm : Form
         btnRefresh = new Button
         {
             Text = "Refresh",
-            Location = new Point(20, 715),
+            Location = new Point(20, 1510),
             Size = new Size(150, 40),
             Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
             BackColor = Color.FromArgb(156, 39, 176),
@@ -290,7 +290,7 @@ public partial class DashboardForm : Form
         btnViewTransactions = new Button
         {
             Text = "View All Transactions",
-            Location = new Point(180, 715),
+            Location = new Point(180, 1510),
             Size = new Size(180, 40),
             Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
             BackColor = Color.FromArgb(33, 150, 243),
@@ -304,7 +304,7 @@ public partial class DashboardForm : Form
         btnViewBudgets = new Button
         {
             Text = "View Budgets",
-            Location = new Point(370, 715),
+            Location = new Point(370, 1510),
             Size = new Size(150, 40),
             Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
             BackColor = Color.FromArgb(76, 175, 80),
@@ -523,33 +523,35 @@ public partial class DashboardForm : Form
     {
         var card = new Panel
         {
-            Size = new Size(500, 80),
-            Margin = new Padding(5),
+            Size = new Size(510, 100),
+            Margin = new Padding(5, 10, 5, 10),
             BorderStyle = BorderStyle.FixedSingle,
-            BackColor = Color.White
+            BackColor = Color.White,
+            Padding = new Padding(10)
         };
 
         var lblName = new Label
         {
             Text = budget.BudgetName,
             Location = new Point(10, 10),
-            Size = new Size(300, 20),
-            Font = new Font("Segoe UI", 10, FontStyle.Bold)
+            Size = new Size(350, 25),
+            Font = new Font("Segoe UI", 11, FontStyle.Bold),
+            AutoEllipsis = true
         };
 
         var lblAmount = new Label
         {
             Text = $"${budget.ActualSpending:N2} / ${budget.BudgetAmount:N2}",
-            Location = new Point(320, 10),
-            Size = new Size(170, 20),
-            Font = new Font("Segoe UI", 9),
-            TextAlign = ContentAlignment.MiddleRight
+            Location = new Point(10, 40),
+            Size = new Size(480, 22),
+            Font = new Font("Segoe UI", 10),
+            TextAlign = ContentAlignment.MiddleLeft
         };
 
         var progressBar = new ProgressBar
         {
-            Location = new Point(10, 40),
-            Size = new Size(480, 25),
+            Location = new Point(10, 68),
+            Size = new Size(480, 22),
             Minimum = 0,
             Maximum = 100,
             Value = Math.Min((int)budget.PercentageUsed, 100)
