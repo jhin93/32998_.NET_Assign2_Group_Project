@@ -126,9 +126,9 @@ public class Money : IEquatable<Money>
         return Currency switch
         {
             "USD" => $"${Amount:N2}",
-            "EUR" => $"¬{Amount:N2}",
-            "GBP" => $"£{Amount:N2}",
-            "AUD" => $"A${Amount:N2}",
+            "EUR" => $"${Amount:N2}",
+            "GBP" => $"${Amount:N2}",
+            "AUD" => $"${Amount:N2}",
             _ => $"{Currency} {Amount:N2}"
         };
     }

@@ -12,7 +12,8 @@
       "Bash(touch:*)",
       "Bash(tree:*)",
       "Bash(dotnet add reference:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Read(//Users/kimjinkyeong/Desktop/**)"
     ],
     "deny": [],
     "ask": []

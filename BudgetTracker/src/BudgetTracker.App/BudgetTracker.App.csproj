@@ -2,10 +2,16 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BudgetTracker.Domain\BudgetTracker.Domain.csproj" />
+    <ProjectReference Include="..\BudgetTracker.Core\BudgetTracker.Core.csproj" />
+    <ProjectReference Include="..\BudgetTracker.Data\BudgetTracker.Data.csproj" />
+  </ItemGroup>
 
 </Project>
