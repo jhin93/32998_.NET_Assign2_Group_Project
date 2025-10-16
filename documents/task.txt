@@ -100,7 +100,7 @@ Phase 4: Dashboard & Visualization
 ----------------------------------------
 Phase 5: Reports & Analytics
 ----------------------------------------
-14. [ ] ReportsForm Implementation (Demo Step 5)
+14. [V] ReportsForm Implementation (Demo Step 5)
     - Spending report (by category) ★ LINQ GroupBy
     - Income report
     - Budget vs Actual comparison
