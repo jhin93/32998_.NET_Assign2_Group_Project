@@ -133,13 +133,13 @@ Phase 6: Advanced Features & Testing
     - Properties: Transaction.FormattedAmount
     - Extension Methods: decimal.ToCurrency()
 
-19. [ ] NUnit Test Writing ★ Testing (Required)
+19. [V] NUnit Test Writing ★ Testing (Required)
     - BudgetServiceTests
     - RuleEngineTests
     - CsvImportTests
     - TransactionTests
 
-20. [ ] Input Validation & Error Handling
+20. [V] Input Validation & Error Handling
     - Amount validation (positive, numeric)
     - Required field validation
     - Try-Catch blocks

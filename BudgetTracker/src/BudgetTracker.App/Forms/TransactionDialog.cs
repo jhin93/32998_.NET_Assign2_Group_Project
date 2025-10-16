@@ -323,44 +323,122 @@ public class TransactionDialog : Form
 
     private void BtnOK_Click(object? sender, EventArgs e)
     {
-        // Validate Description
-        if (string.IsNullOrWhiteSpace(txtDescription.Text))
+        try
         {
-            MessageBox.Show("Description is required.", "Validation Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            txtDescription.Focus();
-            this.DialogResult = DialogResult.None;
-            return;
-        }
+            // Phase 6.20: Input Validation & Error Handling
 
-        // Validate Amount
-        if (!decimal.TryParse(txtAmount.Text, out var amount) || amount <= 0)
-        {
-            MessageBox.Show("Please enter a valid positive amount.", "Validation Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            txtAmount.Focus();
-            this.DialogResult = DialogResult.None;
-            return;
-        }
+            // Validate Description
+            if (string.IsNullOrWhiteSpace(txtDescription.Text))
+            {
+                MessageBox.Show("Description is required.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDescription.Focus();
+                this.DialogResult = DialogResult.None;
+                return;
+            }
 
-        // Validate Category
-        if (cmbCategory.SelectedValue == null)
-        {
-            MessageBox.Show("Please select a category.", "Validation Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            cmbCategory.Focus();
-            this.DialogResult = DialogResult.None;
-            return;
-        }
+            // Validate Description Length
+            if (txtDescription.Text.Length > 200)
+            {
+                MessageBox.Show("Description cannot exceed 200 characters.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDescription.Focus();
+                this.DialogResult = DialogResult.None;
+                return;
+            }
 
-        // Validate Payment Method
-        if (string.IsNullOrWhiteSpace(txtPaymentMethod.Text))
+            // Validate Amount - must be numeric
+            if (!decimal.TryParse(txtAmount.Text, out var amount))
+            {
+                MessageBox.Show("Please enter a valid numeric amount.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAmount.Focus();
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            // Validate Amount - must be positive
+            if (amount <= 0)
+            {
+                MessageBox.Show("Amount must be greater than zero.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAmount.Focus();
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            // Validate Amount - reasonable maximum
+            if (amount > 1000000000)
+            {
+                MessageBox.Show("Amount cannot exceed $1,000,000,000.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAmount.Focus();
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            // Validate Category
+            if (cmbCategory.SelectedValue == null)
+            {
+                MessageBox.Show("Please select a category.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbCategory.Focus();
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            // Validate Payment Method
+            if (string.IsNullOrWhiteSpace(txtPaymentMethod.Text))
+            {
+                MessageBox.Show("Payment method is required.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtPaymentMethod.Focus();
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            // Validate Date - warn if future date
+            if (dtpDate.Value.Date > DateTime.Today)
+            {
+                var result = MessageBox.Show(
+                    "The transaction date is in the future. Do you want to continue?",
+                    "Future Date Warning",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.No)
+                {
+                    dtpDate.Focus();
+                    this.DialogResult = DialogResult.None;
+                    return;
+                }
+            }
+
+            // Validate Date - warn if very old
+            if (dtpDate.Value.Date < DateTime.Today.AddYears(-5))
+            {
+                var result = MessageBox.Show(
+                    "The transaction date is more than 5 years ago. Do you want to continue?",
+                    "Old Date Warning",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.No)
+                {
+                    dtpDate.Focus();
+                    this.DialogResult = DialogResult.None;
+                    return;
+                }
+            }
+
+            // All validations passed
+            this.DialogResult = DialogResult.OK;
+        }
+        catch (Exception ex)
         {
-            MessageBox.Show("Payment method is required.", "Validation Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            txtPaymentMethod.Focus();
+            MessageBox.Show($"An error occurred while saving the transaction:\n{ex.Message}",
+                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             this.DialogResult = DialogResult.None;
-            return;
         }
     }
 }

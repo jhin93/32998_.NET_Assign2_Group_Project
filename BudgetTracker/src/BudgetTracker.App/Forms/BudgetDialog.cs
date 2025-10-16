@@ -319,42 +319,139 @@ public partial class BudgetDialog : Form
 
     private void BtnOK_Click(object? sender, EventArgs e)
     {
-        // Validate name
-        if (string.IsNullOrWhiteSpace(txtName.Text))
+        try
         {
-            MessageBox.Show("Please enter a budget name.", "Validation Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            txtName.Focus();
-            return;
-        }
+            // Phase 6.20: Input Validation & Error Handling
 
-        // Validate amount
-        if (!decimal.TryParse(txtAmount.Text, out var amount) || amount <= 0)
+            // Validate name - required field
+            if (string.IsNullOrWhiteSpace(txtName.Text))
+            {
+                MessageBox.Show("Please enter a budget name.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtName.Focus();
+                return;
+            }
+
+            // Validate name length
+            if (txtName.Text.Length > 100)
+            {
+                MessageBox.Show("Budget name cannot exceed 100 characters.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtName.Focus();
+                return;
+            }
+
+            // Validate amount - must be numeric
+            if (!decimal.TryParse(txtAmount.Text, out var amount))
+            {
+                MessageBox.Show("Please enter a valid numeric amount.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAmount.Focus();
+                return;
+            }
+
+            // Validate amount - must be positive
+            if (amount <= 0)
+            {
+                MessageBox.Show("Budget amount must be greater than zero.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAmount.Focus();
+                return;
+            }
+
+            // Validate amount - reasonable maximum
+            if (amount > 1000000000)
+            {
+                MessageBox.Show("Budget amount cannot exceed $1,000,000,000.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAmount.Focus();
+                return;
+            }
+
+            // Validate amount - reasonable minimum
+            if (amount < 1)
+            {
+                MessageBox.Show("Budget amount should be at least $1.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAmount.Focus();
+                return;
+            }
+
+            // Validate category
+            if (cmbCategory.SelectedValue == null)
+            {
+                MessageBox.Show("Please select a category.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbCategory.Focus();
+                return;
+            }
+
+            // Validate dates - end date must be after start date
+            if (dtpEndDate.Value.Date <= dtpStartDate.Value.Date)
+            {
+                MessageBox.Show("End date must be after start date.", "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                dtpEndDate.Focus();
+                return;
+            }
+
+            // Validate date range - warn if very short
+            var daysDifference = (dtpEndDate.Value.Date - dtpStartDate.Value.Date).Days;
+            if (daysDifference < 7)
+            {
+                var result = MessageBox.Show(
+                    "Budget period is less than 1 week. Do you want to continue?",
+                    "Short Budget Period",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.No)
+                {
+                    dtpEndDate.Focus();
+                    return;
+                }
+            }
+
+            // Validate date range - warn if very long
+            if (daysDifference > 730) // More than 2 years
+            {
+                var result = MessageBox.Show(
+                    "Budget period is more than 2 years. Do you want to continue?",
+                    "Long Budget Period",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.No)
+                {
+                    dtpEndDate.Focus();
+                    return;
+                }
+            }
+
+            // Validate start date - warn if in the past
+            if (dtpStartDate.Value.Date < DateTime.Today.AddMonths(-1))
+            {
+                var result = MessageBox.Show(
+                    "Budget start date is more than 1 month in the past. Do you want to continue?",
+                    "Past Start Date",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.No)
+                {
+                    dtpStartDate.Focus();
+                    return;
+                }
+            }
+
+            // All validations passed
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+        catch (Exception ex)
         {
-            MessageBox.Show("Please enter a valid amount greater than zero.", "Validation Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            txtAmount.Focus();
-            return;
+            MessageBox.Show($"An error occurred while saving the budget:\n{ex.Message}",
+                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
-        // Validate category
-        if (cmbCategory.SelectedValue == null)
-        {
-            MessageBox.Show("Please select a category.", "Validation Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            cmbCategory.Focus();
-            return;
-        }
-
-        // Validate dates
-        if (dtpEndDate.Value <= dtpStartDate.Value)
-        {
-            MessageBox.Show("End date must be after start date.", "Validation Error",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            return;
-        }
-
-        this.DialogResult = DialogResult.OK;
-        this.Close();
     }
 }
