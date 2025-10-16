@@ -71,12 +71,12 @@ Phase 3: Budget Management
    - Budget templates
    - UI Controls: ProgressBar (budget usage), Panel, Label
 
-10. [ ] BudgetService Implementation
+10. [V] BudgetService Implementation
     - Calculate actual spending vs budget ★ LINQ Aggregation
     - Budget exceeded alerts
     - var spent = transactions.Where(t => t.CategoryId == id).Sum(t => t.Amount);
 
-11. [ ] RuleEngine Implementation ★ Strategy Pattern
+11. [V] RuleEngine Implementation ★ Strategy Pattern
     - Budget exceeded rules
     - Alert rules
     - Validation rules
