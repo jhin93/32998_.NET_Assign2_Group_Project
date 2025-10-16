@@ -49,7 +49,7 @@ public partial class DashboardForm : Form
     {
         // Form settings
         this.Text = "Budget Tracker - Dashboard";
-        this.Size = new Size(1200, 1600);
+        this.Size = new Size(1200, 1650);
         this.StartPosition = FormStartPosition.CenterScreen;
         this.MinimumSize = new Size(1000, 1400);
 
@@ -58,7 +58,7 @@ public partial class DashboardForm : Form
         {
             Text = "Dashboard",
             Font = new Font("Segoe UI", 18, FontStyle.Bold),
-            Location = new Point(20, 20),
+            Location = new Point(20, 10),
             AutoSize = true
         };
 
@@ -232,7 +232,7 @@ public partial class DashboardForm : Form
             Location = new Point(10, 10),
             AutoSize = true
         };
-
+        
         dgvSpendingSummary = new DataGridView
         {
             Location = new Point(10, 45),
