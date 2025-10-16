@@ -13,7 +13,7 @@ Phase 1: Basic Setup & Infrastructure (Settings)
    - BudgetTracker.App (Windows Forms)
    - BudgetTracker.Tests (NUnit Tests)
 
-2. [ ] Domain Layer Implementation
+2. [V] Domain Layer Implementation
    - Transaction (Abstract Base Class) ★ Polymorphism
    - Expense (Inherits from Transaction) ★ Inheritance
    - Income (Inherits from Transaction) ★ Inheritance
