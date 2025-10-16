@@ -22,7 +22,7 @@ Phase 1: Basic Setup & Infrastructure (Settings)
    - Money Value Object
    - Frequency Enum
 
-3. [ ] Core Interfaces Implementation ★ Interface (Minimum 2)
+3. [V] Core Interfaces Implementation ★ Interface (Minimum 2)
    - IRepository<T> (Generic Repository Pattern) ★ Generics
    - IRecurring (Recurring transactions)
    - IExportable (Data export)
