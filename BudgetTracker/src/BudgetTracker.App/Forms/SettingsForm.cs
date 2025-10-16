@@ -125,7 +125,7 @@ public partial class SettingsForm : Form
         pnlActions = new Panel
         {
             Location = new Point(20, 480),
-            Size = new Size(740, 60),
+            Size = new Size(760, 110),
             Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right
         };
 
@@ -134,7 +134,7 @@ public partial class SettingsForm : Form
         {
             Text = "Add Category",
             Location = new Point(0, 10),
-            Size = new Size(120, 40),
+            Size = new Size(180, 60),
             BackColor = Color.FromArgb(76, 175, 80),
             ForeColor = Color.White,
             FlatStyle = FlatStyle.Flat,
@@ -147,8 +147,8 @@ public partial class SettingsForm : Form
         btnEditCategory = new Button
         {
             Text = "Edit Category",
-            Location = new Point(130, 10),
-            Size = new Size(120, 40),
+            Location = new Point(190, 10),
+            Size = new Size(180, 60),
             BackColor = Color.FromArgb(33, 150, 243),
             ForeColor = Color.White,
             FlatStyle = FlatStyle.Flat,
@@ -161,8 +161,8 @@ public partial class SettingsForm : Form
         btnDeleteCategory = new Button
         {
             Text = "Delete Category",
-            Location = new Point(260, 10),
-            Size = new Size(130, 40),
+            Location = new Point(380, 10),
+            Size = new Size(195, 60),
             BackColor = Color.FromArgb(244, 67, 54),
             ForeColor = Color.White,
             FlatStyle = FlatStyle.Flat,
@@ -175,8 +175,8 @@ public partial class SettingsForm : Form
         btnImportCSV = new Button
         {
             Text = "Import CSV",
-            Location = new Point(500, 10),
-            Size = new Size(110, 40),
+            Location = new Point(585, 10),
+            Size = new Size(165, 60),
             BackColor = Color.FromArgb(255, 152, 0),
             ForeColor = Color.White,
             FlatStyle = FlatStyle.Flat,
@@ -189,8 +189,8 @@ public partial class SettingsForm : Form
         btnExportCSV = new Button
         {
             Text = "Export CSV",
-            Location = new Point(620, 10),
-            Size = new Size(110, 40),
+            Location = new Point(0, 80),
+            Size = new Size(165, 60),
             BackColor = Color.FromArgb(156, 39, 176),
             ForeColor = Color.White,
             FlatStyle = FlatStyle.Flat,

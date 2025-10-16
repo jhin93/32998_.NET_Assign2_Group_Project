@@ -41,7 +41,7 @@ Phase 1: Basic Setup & Infrastructure (Settings)
 ----------------------------------------
 Phase 2: Core Features - Transaction Management
 ----------------------------------------
-6. [ ] TransactionsForm Implementation (Demo Step 2)
+6. [V] TransactionsForm Implementation (Demo Step 2)
    - Transaction Add/Edit/Delete (CRUD)
    - Income/Expense distinction
    - Category selection
