@@ -36,6 +36,7 @@ public partial class DashboardForm : Form
     private Button btnRefresh;
     private Button btnViewTransactions;
     private Button btnViewBudgets;
+    private Button btnViewReports;
 
     public DashboardForm()
     {
@@ -315,6 +316,20 @@ public partial class DashboardForm : Form
         btnViewBudgets.FlatAppearance.BorderSize = 0;
         btnViewBudgets.Click += BtnViewBudgets_Click;
 
+        btnViewReports = new Button
+        {
+            Text = "View Reports",
+            Location = new Point(530, 1510),
+            Size = new Size(150, 40),
+            Anchor = AnchorStyles.Bottom | AnchorStyles.Left,
+            BackColor = Color.FromArgb(255, 152, 0),
+            ForeColor = Color.White,
+            FlatStyle = FlatStyle.Flat,
+            Font = new Font("Segoe UI", 10, FontStyle.Bold)
+        };
+        btnViewReports.FlatAppearance.BorderSize = 0;
+        btnViewReports.Click += BtnViewReports_Click;
+
         // Add controls to form
         this.Controls.AddRange(new Control[]
         {
@@ -325,7 +340,8 @@ public partial class DashboardForm : Form
             pnlSpendingSummary,
             btnRefresh,
             btnViewTransactions,
-            btnViewBudgets
+            btnViewBudgets,
+            btnViewReports
         });
     }
 
@@ -667,5 +683,11 @@ public partial class DashboardForm : Form
     {
         var budgetsForm = new BudgetsForm();
         budgetsForm.ShowDialog();
+    }
+
+    private void BtnViewReports_Click(object? sender, EventArgs e)
+    {
+        var reportsForm = new ReportsForm();
+        reportsForm.ShowDialog();
     }
 }

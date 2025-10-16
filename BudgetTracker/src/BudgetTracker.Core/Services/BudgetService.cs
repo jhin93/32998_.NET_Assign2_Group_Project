@@ -46,11 +46,13 @@ public class BudgetService
         var budgetAmount = budget.Amount.Amount;
         var remaining = budgetAmount - actualSpending;
         var percentageUsed = budgetAmount > 0 ? (actualSpending / budgetAmount) * 100 : 0;
+        var category = _categoryRepository.GetById(budget.CategoryId);
 
         return new BudgetSummary
         {
             BudgetId = budget.Id,
             BudgetName = budget.Name,
+            CategoryName = category?.Name ?? "Unknown",
             BudgetAmount = budgetAmount,
             ActualSpending = actualSpending,
             Remaining = remaining,
@@ -290,6 +292,7 @@ public class BudgetSummary
 {
     public int BudgetId { get; set; }
     public string BudgetName { get; set; } = string.Empty;
+    public string CategoryName { get; set; } = string.Empty;
     public decimal BudgetAmount { get; set; }
     public decimal ActualSpending { get; set; }
     public decimal Remaining { get; set; }
