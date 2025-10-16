@@ -65,7 +65,7 @@ Phase 2: Core Features - Transaction Management
 ----------------------------------------
 Phase 3: Budget Management
 ----------------------------------------
-9. [ ] BudgetsForm Implementation (Demo Step 3)
+9. [V] BudgetsForm Implementation (Demo Step 3)
    - Budget creation (by category, by period)
    - Budget edit/delete
    - Budget templates
