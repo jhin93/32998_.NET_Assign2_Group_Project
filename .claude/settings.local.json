@@ -9,7 +9,10 @@
       "Bash(dotnet clean:*)",
       "Bash(dotnet restore:*)",
       "Bash(dotnet run:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(tree:*)",
+      "Bash(dotnet add reference:*)",
+      "Bash(cd:*)"
     ],
     "deny": [],
     "ask": []
