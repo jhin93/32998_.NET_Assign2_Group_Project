@@ -28,7 +28,7 @@ Phase 1: Basic Setup & Infrastructure (Settings)
    - IExportable (Data export)
    - IRule (Business rules)
 
-4. [ ] Data Access Layer
+4. [V] Data Access Layer
    - InMemoryRepository implementation
    - SeedData (Initial test data)
    - (Optional) Entity Framework + Database integration ★ Bonus 3pts
@@ -173,6 +173,9 @@ Phase 7: Final Review & Bonus
     - Usage instructions
     - Code comments
     - Report.pdf final review
+    
+26. [ ] Refactoring
+    - Unused code, file removal, etc.
 
 ========================================
 DEMO SEQUENCE (Demo Flow)
