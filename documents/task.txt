@@ -6,7 +6,7 @@ Team Members: Jinkyung Kim (14657314), Tahmid Ahmed (25178688)
 ----------------------------------------
 Phase 1: Basic Setup & Infrastructure (Settings)
 ----------------------------------------
-1. [ ] Project Structure Setup
+1. [V] Project Structure Setup
    - BudgetTracker.Domain (Entities, Value Objects, Enums)
    - BudgetTracker.Core (Interfaces, Services)
    - BudgetTracker.Data (Repository)
