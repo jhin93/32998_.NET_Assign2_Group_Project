@@ -539,7 +539,7 @@ public partial class DashboardForm : Form
     {
         var card = new Panel
         {
-            Size = new Size(510, 100),
+            Size = new Size(510, 130),
             Margin = new Padding(5, 10, 5, 10),
             BorderStyle = BorderStyle.FixedSingle,
             BackColor = Color.White,
@@ -550,7 +550,7 @@ public partial class DashboardForm : Form
         {
             Text = budget.BudgetName,
             Location = new Point(10, 10),
-            Size = new Size(350, 25),
+            Size = new Size(400, 40),
             Font = new Font("Segoe UI", 11, FontStyle.Bold),
             AutoEllipsis = true
         };
@@ -559,7 +559,7 @@ public partial class DashboardForm : Form
         {
             Text = $"${budget.ActualSpending:N2} / ${budget.BudgetAmount:N2}",
             Location = new Point(10, 40),
-            Size = new Size(480, 22),
+            Size = new Size(480, 35),
             Font = new Font("Segoe UI", 10),
             TextAlign = ContentAlignment.MiddleLeft
         };
@@ -567,7 +567,7 @@ public partial class DashboardForm : Form
         var progressBar = new ProgressBar
         {
             Location = new Point(10, 68),
-            Size = new Size(480, 22),
+            Size = new Size(480, 30),
             Minimum = 0,
             Maximum = 100,
             Value = Math.Min((int)budget.PercentageUsed, 100)
