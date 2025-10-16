@@ -56,7 +56,7 @@ Phase 2: Core Features - Transaction Management
    - Search functionality (Description)
    - var filtered = transactions.Where(t => t.Date >= start && t.Date <= end).ToList();
 
-8. [ ] CSV Import Feature Implementation (Demo during)
+8. [V] CSV Import Feature Implementation (Demo during)
    - CsvImportService class
    - File selection (OpenFileDialog)
    - CSV parsing and validation

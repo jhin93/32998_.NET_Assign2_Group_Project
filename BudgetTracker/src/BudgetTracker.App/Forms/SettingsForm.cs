@@ -1,4 +1,5 @@
 using BudgetTracker.Domain.Entities;
+using BudgetTracker.Core.Services;
 
 namespace BudgetTracker.App.Forms;
 
@@ -344,40 +345,148 @@ public partial class SettingsForm : Form
 
     private void BtnImportCSV_Click(object? sender, EventArgs e)
     {
-        MessageBox.Show("CSV Import feature will be implemented in Phase 2!", "Coming Soon",
-            MessageBoxButtons.OK, MessageBoxIcon.Information);
+        try
+        {
+            // Create OpenFileDialog for CSV file selection
+            var openDialog = new OpenFileDialog
+            {
+                Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*",
+                DefaultExt = "csv",
+                Title = "Import Transactions from CSV",
+                Multiselect = false
+            };
+
+            if (openDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Show confirmation message with import instructions
+                var confirmResult = MessageBox.Show(
+                    "CSV Import Instructions:\n\n" +
+                    "Required CSV Format:\n" +
+                    "Type,Description,Amount,Date,Category,Account,Notes,Source\n\n" +
+                    "- Type: 'Income' or 'Expense'\n" +
+                    "- Amount: Positive number (e.g., 100.50)\n" +
+                    "- Date: MM/DD/YYYY or YYYY-MM-DD\n" +
+                    "- Category: Must exist in your categories\n\n" +
+                    "Do you want to continue with the import?",
+                    "CSV Import Instructions",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirmResult == DialogResult.Yes)
+                {
+                    // Create CSV import service
+                    var csvService = new CsvImportService(
+                        Program.TransactionRepository,
+                        Program.CategoryRepository
+                    );
+
+                    // Import from CSV
+                    var (successCount, errorCount, errors) = csvService.ImportFromCsv(openDialog.FileName);
+
+                    // Build result message
+                    var resultMessage = $"Import completed!\n\n" +
+                                      $"Successfully imported: {successCount} transactions\n" +
+                                      $"Failed: {errorCount} rows\n";
+
+                    if (errors.Count > 0)
+                    {
+                        resultMessage += "\nErrors:\n";
+                        // Show only first 10 errors to avoid overwhelming the user
+                        var errorsToShow = errors.Take(10).ToList();
+                        resultMessage += string.Join("\n", errorsToShow);
+
+                        if (errors.Count > 10)
+                        {
+                            resultMessage += $"\n... and {errors.Count - 10} more errors";
+                        }
+                    }
+
+                    // Show result with appropriate icon
+                    var icon = errorCount == 0 ? MessageBoxIcon.Information : MessageBoxIcon.Warning;
+                    MessageBox.Show(resultMessage, "Import Results", MessageBoxButtons.OK, icon);
+
+                    // Refresh the form if any transactions were imported
+                    if (successCount > 0)
+                    {
+                        LoadCategories();
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error importing CSV: {ex.Message}", "Import Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
     private void BtnExportCSV_Click(object? sender, EventArgs e)
     {
         try
         {
+            // Ask user what to export
+            var exportChoice = MessageBox.Show(
+                "What would you like to export?\n\n" +
+                "Yes = Export Transactions (CSV)\n" +
+                "No = Export Sample CSV Template\n" +
+                "Cancel = Cancel Export",
+                "Export Options",
+                MessageBoxButtons.YesNoCancel,
+                MessageBoxIcon.Question
+            );
+
+            if (exportChoice == DialogResult.Cancel)
+                return;
+
             var saveDialog = new SaveFileDialog
             {
                 Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*",
-                DefaultExt = "csv",
-                FileName = $"categories_{DateTime.Now:yyyyMMdd}.csv"
+                DefaultExt = "csv"
             };
 
-            if (saveDialog.ShowDialog() == DialogResult.OK)
+            if (exportChoice == DialogResult.Yes)
             {
-                var categories = Program.CategoryRepository.GetAll();
-                var csv = "Id,Name,Description,Color,Icon,IsActive\n";
+                // Export transactions
+                saveDialog.FileName = $"transactions_{DateTime.Now:yyyyMMdd}.csv";
 
-                foreach (var category in categories)
+                if (saveDialog.ShowDialog() == DialogResult.OK)
                 {
-                    csv += $"{category.Id},{category.Name},{category.Description},{category.Color},{category.Icon},{category.IsActive}\n";
+                    var csvService = new CsvImportService(
+                        Program.TransactionRepository,
+                        Program.CategoryRepository
+                    );
+
+                    var transactions = Program.TransactionRepository.GetAll();
+                    csvService.ExportToCsv(saveDialog.FileName, transactions);
+
+                    MessageBox.Show($"Transactions exported successfully to:\n{saveDialog.FileName}", "Success",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+            }
+            else
+            {
+                // Export sample template
+                saveDialog.FileName = $"transactions_template_{DateTime.Now:yyyyMMdd}.csv";
 
-                File.WriteAllText(saveDialog.FileName, csv);
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    var sampleCsv = CsvImportService.GenerateSampleCsv();
+                    File.WriteAllText(saveDialog.FileName, sampleCsv);
 
-                MessageBox.Show("Categories exported successfully!", "Success",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(
+                        $"Sample CSV template exported successfully to:\n{saveDialog.FileName}\n\n" +
+                        "You can use this template as a reference for importing transactions.",
+                        "Success",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Error exporting categories: {ex.Message}", "Error",
+            MessageBox.Show($"Error exporting CSV: {ex.Message}", "Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
