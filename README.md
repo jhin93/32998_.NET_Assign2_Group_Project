@@ -6,6 +6,10 @@ Budget Tracker - A personal finance management application with both desktop (Wi
 
 ## ============== Quick Start (Fastest Way to Run) ==============
 
+**IMPORTANT FOR macOS/Linux USERS:**
+- BudgetTracker.App (WinForms) is **Windows-only** and will NOT work on macOS/Linux
+- Use BudgetTracker.Web (Blazor) instead - it works on all platforms!
+
 ```bash
 # 1. Verify .NET SDK installation
 dotnet --version
