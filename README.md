@@ -4,31 +4,7 @@ Budget Tracker - A personal finance management application with both desktop (Wi
 
 ## Prerequisites
 
-### Required Software
-1. **.NET 9.0 SDK or later** (includes Blazor framework)
-   - **Blazor is included in .NET SDK - no separate installation needed!**
-   - Check your current version: `dotnet --version`
-   - If version is less than 9.0, download and install from:
-     - **Windows/Mac/Linux**: https://dotnet.microsoft.com/download/dotnet/9.0
-   - After installation, verify: `dotnet --version` (should show 9.0.x or higher)
-   - Verify Blazor templates are available: `dotnet new list | grep blazor`
-
-2. **IDE (Choose one)**
-   - **Visual Studio 2022** (17.8 or later) - Recommended for Windows
-     - Download: https://visualstudio.microsoft.com/downloads/
-     - Select workloads: ".NET desktop development" and "ASP.NET and web development"
-   - **Visual Studio Code** - For all platforms
-     - Download: https://code.visualstudio.com/
-     - Install C# extension: https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp
-   - **JetBrains Rider** - Alternative IDE
-     - Download: https://www.jetbrains.com/rider/
-
-3. **Git** (for cloning the repository)
-   - Download: https://git-scm.com/downloads
-
-## Quick Start (Fastest Way to Run)
-
-To quickly run the Blazor app:
+## ============== Quick Start (Fastest Way to Run) ==============
 
 ```bash
 # 1. Verify .NET SDK installation
@@ -56,6 +32,36 @@ dotnet run
 # 6. Open browser and access the application
 # Navigate to the URL shown in terminal (usually https://localhost:5001)
 ```
+
+### Required (Minimum Installation)
+**You ONLY need .NET 9.0 SDK - that's it!**
+
+**.NET 9.0 SDK or later** (includes Blazor framework)
+- **Blazor is included in .NET SDK - no separate installation needed!**
+- **This is the ONLY required software to run the application**
+- Check your current version: `dotnet --version`
+- If version is less than 9.0, download and install from:
+  - **Windows/Mac/Linux**: https://dotnet.microsoft.com/download/dotnet/9.0
+- After installation, verify: `dotnet --version` (should show 9.0.x or higher)
+- Verify Blazor templates are available: `dotnet new list | grep blazor`
+
+### Optional (Recommended for Development)
+
+**IDE (Choose one) - Optional but makes development easier**
+- **Visual Studio 2022** (17.8 or later) - Recommended for Windows
+  - Download: https://visualstudio.microsoft.com/downloads/
+  - Select workloads: ".NET desktop development" and "ASP.NET and web development"
+- **Visual Studio Code** - For all platforms
+  - Download: https://code.visualstudio.com/
+  - Install C# extension: https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp
+- **JetBrains Rider** - Alternative IDE
+  - Download: https://www.jetbrains.com/rider/
+- **OR use any text editor** - You can use Notepad, vim, nano, etc. and run commands via terminal
+
+**Git (for cloning the repository) - Optional**
+- Download: https://git-scm.com/downloads
+- Alternative: Download the project as a ZIP file from the repository
+
 
 **IMPORTANT:** Blazor does NOT require separate installation! It's included in .NET SDK.
 
