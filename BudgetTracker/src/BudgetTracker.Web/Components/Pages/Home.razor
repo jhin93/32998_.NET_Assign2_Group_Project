@@ -373,8 +373,14 @@
 
                         <div class="budget-item">
                             <div class="budget-header">
-                                <h4>@(budget.Category?.Name ?? "Budget")</h4>
-                                <span>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</span>
+                                <div>
+                                    <h4>@(budget.Category?.Name ?? "Budget")</h4>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <span>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</span>
+                                    <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnEditBudget(budget)">Edit</button>
+                                    <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnDeleteBudget(budget)">Delete</button>
+                                </div>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-fill @progressClass"
@@ -392,8 +398,6 @@
 
                 <div class="btn-group">
                     <button class="btn btn-primary" @onclick="OnAddBudget">+ Add Budget</button>
-                    <button class="btn btn-secondary" @onclick="OnEditBudget">Edit Budget</button>
-                    <button class="btn btn-danger" @onclick="OnDeleteBudget">Delete Budget</button>
                 </div>
             </div>
         </div>
@@ -478,10 +482,16 @@
                                     <h4>@(budget.Category?.Name ?? "Budget")</h4>
                                     <small style="color: #666;">@budget.StartDate.ToString("MMM dd") - @budget.EndDate.ToString("MMM dd")</small>
                                 </div>
-                                <div style="text-align: right;">
-                                    <strong>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</strong>
-                                    <br />
-                                    <small style="color: #666;">@percentage.ToString("F1")% Used</small>
+                                <div style="text-align: right; display: flex; align-items: center; gap: 10px;">
+                                    <div>
+                                        <strong>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</strong>
+                                        <br />
+                                        <small style="color: #666;">@percentage.ToString("F1")% Used</small>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;" @onclick="() => OnEditBudget(budget)">Edit</button>
+                                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnDeleteBudget(budget)">Delete</button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="progress-bar">
@@ -500,8 +510,6 @@
 
                 <div class="btn-group">
                     <button class="btn btn-primary" @onclick="OnAddBudget">+ Add Budget</button>
-                    <button class="btn btn-secondary" @onclick="OnEditBudget">Edit Budget</button>
-                    <button class="btn btn-danger" @onclick="OnDeleteBudget">Delete Budget</button>
                 </div>
             </div>
         </div>
@@ -518,6 +526,7 @@
                         <thead>
                             <tr>
                                 <th>Category Name</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -525,6 +534,10 @@
                             {
                                 <tr>
                                     <td>@cat.Name</td>
+                                    <td>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;" @onclick="() => OnEditCategory(cat)">Edit</button>
+                                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnDeleteCategory(cat)">Delete</button>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -539,8 +552,6 @@
 
                 <div class="btn-group">
                     <button class="btn btn-primary" @onclick="OnAddCategory">+ Add Category</button>
-                    <button class="btn btn-secondary" @onclick="OnEditCategory">Edit Category</button>
-                    <button class="btn btn-danger" @onclick="OnDeleteCategory">Delete Category</button>
                 </div>
             </div>
 
@@ -555,6 +566,7 @@
                                 <th>Type</th>
                                 <th>Initial Balance</th>
                                 <th>Description</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -565,6 +577,10 @@
                                     <td>@acc.AccountType</td>
                                     <td>$@acc.InitialBalance.ToString("F2")</td>
                                     <td>@(acc.Description ?? "N/A")</td>
+                                    <td>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;" @onclick="() => OnEditAccount(acc)">Edit</button>
+                                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnDeleteAccount(acc)">Delete</button>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -579,8 +595,6 @@
 
                 <div class="btn-group">
                     <button class="btn btn-primary" @onclick="OnAddAccount">+ Add Account</button>
-                    <button class="btn btn-secondary" @onclick="OnEditAccount">Edit Account</button>
-                    <button class="btn btn-danger" @onclick="OnDeleteAccount">Delete Account</button>
                 </div>
             </div>
         </div>
@@ -707,33 +721,20 @@
         StateHasChanged();
     }
 
-    private void OnEditBudget()
+    private void OnEditBudget(Budget budget)
     {
-        if (budgets.Count == 0)
-        {
-            Console.WriteLine("No budgets to edit");
-            return;
-        }
-
         isBudgetEditMode = true;
-        selectedBudget = budgets.First();
+        selectedBudget = budget;
         showBudgetModal = true;
         StateHasChanged();
     }
 
-    private void OnDeleteBudget()
+    private void OnDeleteBudget(Budget budget)
     {
-        if (budgets.Count == 0)
-        {
-            Console.WriteLine("No budgets to delete");
-            return;
-        }
-
-        var budgetToDelete = budgets.First();
-        BudgetRepo.Remove(budgetToDelete);
+        BudgetRepo.Remove(budget);
         LoadData();
         StateHasChanged();
-        Console.WriteLine($"Budget deleted: {budgetToDelete.Category?.Name}");
+        Console.WriteLine($"Budget deleted: {budget.Category?.Name}");
     }
 
     private void SaveBudget()
@@ -895,33 +896,20 @@
         StateHasChanged();
     }
 
-    private void OnEditCategory()
+    private void OnEditCategory(Category category)
     {
-        if (categories.Count == 0)
-        {
-            Console.WriteLine("No categories to edit");
-            return;
-        }
-
         isCategoryEditMode = true;
-        selectedCategory = categories.First();
+        selectedCategory = category;
         showCategoryModal = true;
         StateHasChanged();
     }
 
-    private void OnDeleteCategory()
+    private void OnDeleteCategory(Category category)
     {
-        if (categories.Count == 0)
-        {
-            Console.WriteLine("No categories to delete");
-            return;
-        }
-
-        var catToDelete = categories.First();
-        CategoryRepo.Remove(catToDelete);
+        CategoryRepo.Remove(category);
         LoadData();
         StateHasChanged();
-        Console.WriteLine($"Category deleted: {catToDelete.Name}");
+        Console.WriteLine($"Category deleted: {category.Name}");
     }
 
     private void SaveCategory()
@@ -967,33 +955,20 @@
         StateHasChanged();
     }
 
-    private void OnEditAccount()
+    private void OnEditAccount(Account account)
     {
-        if (accounts.Count == 0)
-        {
-            Console.WriteLine("No accounts to edit");
-            return;
-        }
-
         isAccountEditMode = true;
-        selectedAccount = accounts.First();
+        selectedAccount = account;
         showAccountModal = true;
         StateHasChanged();
     }
 
-    private void OnDeleteAccount()
+    private void OnDeleteAccount(Account account)
     {
-        if (accounts.Count == 0)
-        {
-            Console.WriteLine("No accounts to delete");
-            return;
-        }
-
-        var accountToDelete = accounts.First();
-        AccountRepo.Remove(accountToDelete);
+        AccountRepo.Remove(account);
         LoadData();
         StateHasChanged();
-        Console.WriteLine($"Account deleted: {accountToDelete.Name}");
+        Console.WriteLine($"Account deleted: {account.Name}");
     }
 
     private void SaveAccount()
