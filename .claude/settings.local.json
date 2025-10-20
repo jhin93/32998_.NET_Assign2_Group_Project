@@ -16,7 +16,19 @@
       "Read(//Users/kimjinkyeong/Desktop/**)",
       "Bash(dotnet add:*)",
       "Bash(dotnet build:*)",
-      "Bash(dotnet test:*)"
+      "Bash(dotnet test:*)",
+      "Bash(curl -s http://localhost:5081)",
+      "Bash(pkill -f \"dotnet run\")",
+      "Read(//private/tmp/**)",
+      "Bash(lsof -i :5081)",
+      "Bash(curl -s http://localhost:5081/)",
+      "Bash(pkill -9 dotnet)",
+      "Bash(killall -9 dotnet)",
+      "Bash(kill -9 11416)",
+      "Bash(xargs rm -rf)",
+      "Bash(sudo lsof -i :5081)",
+      "Bash(sudo tcpkill -9 -i lo port 5081)",
+      "Bash(kill -9 14401)"
     ],
     "deny": [],
     "ask": []

@@ -1,4 +1,5 @@
-﻿@page "/"
+@page "/"
+@rendermode InteractiveServer
 @using BudgetTracker.Data
 @using BudgetTracker.Domain.Entities
 @inject InMemoryRepository<Category> CategoryRepo
@@ -8,92 +9,116 @@
 <PageTitle>Budget Tracker</PageTitle>
 
 <style>
-    body {
+    * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
         background: #f5f5f5;
     }
 
-    .tab-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+    .app-container {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background: #f5f5f5;
     }
 
-    .tabs {
+    .tabs-header {
         display: flex;
         gap: 0;
-        border-bottom: 2px solid #ddd;
-        margin-bottom: 30px;
+        border-bottom: 3px solid #007bff;
         background: white;
-        border-radius: 8px 8px 0 0;
+        padding: 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .tab-button {
-        padding: 15px 25px;
+    .tab-btn {
+        padding: 16px 24px;
         border: none;
-        background: none;
+        background: white;
         cursor: pointer;
         font-size: 16px;
         font-weight: 500;
         color: #666;
-        border-bottom: 3px solid transparent;
+        border-bottom: 4px solid transparent;
         transition: all 0.3s ease;
+        white-space: nowrap;
     }
 
-    .tab-button:hover {
+    .tab-btn:hover {
         color: #333;
         background: #f9f9f9;
     }
 
-    .tab-button.active {
+    .tab-btn.active {
         color: #007bff;
         border-bottom-color: #007bff;
         background: white;
     }
 
-    .tab-content {
-        background: white;
-        border-radius: 0 0 8px 8px;
-        padding: 30px;
-        min-height: 500px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    .content-area {
+        flex: 1;
+        padding: 24px;
+        background: #f5f5f5;
+        overflow-y: auto;
     }
 
-    .content-section {
+    .tab-content {
         display: none;
     }
 
-    .content-section.active {
+    .tab-content.active {
         display: block;
     }
 
-    /* Dashboard Styles */
-    .dashboard-grid {
+    .card {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        font-size: 28px;
+        margin-bottom: 24px;
+        color: #333;
+    }
+
+    h3 {
+        font-size: 20px;
+        margin-top: 24px;
+        margin-bottom: 16px;
+        color: #333;
+    }
+
+    .stats-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 20px;
-        margin-bottom: 30px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
     }
 
     .stat-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
-        padding: 20px;
+        padding: 24px;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    .stat-card h3 {
-        margin: 0;
+    .stat-card h4 {
         font-size: 14px;
         opacity: 0.9;
+        margin: 0 0 12px 0;
     }
 
-    .stat-card .value {
-        font-size: 28px;
+    .stat-value {
+        font-size: 32px;
         font-weight: bold;
-        margin: 10px 0 0 0;
     }
 
     .stat-card.income {
@@ -102,12 +127,6 @@
 
     .stat-card.expense {
         background: linear-gradient(135deg, #eb3b5a 0%, #fc5c65 100%);
-    }
-
-    /* Table Styles */
-    .table-container {
-        overflow-x: auto;
-        margin: 20px 0;
     }
 
     table {
@@ -133,14 +152,14 @@
         background: #f8f9fa;
     }
 
-    /* Button Styles */
-    .action-buttons {
+    .btn-group {
         display: flex;
         gap: 10px;
         margin-top: 20px;
+        flex-wrap: wrap;
     }
 
-    .btn-custom {
+    .btn {
         padding: 10px 20px;
         border: none;
         border-radius: 5px;
@@ -150,63 +169,79 @@
         transition: all 0.3s ease;
     }
 
-    .btn-primary-custom {
+    .btn-primary {
         background: #007bff;
         color: white;
     }
 
-    .btn-primary-custom:hover {
+    .btn-primary:hover {
         background: #0056b3;
     }
 
-    .btn-success-custom {
+    .btn-success {
         background: #28a745;
         color: white;
     }
 
-    .btn-success-custom:hover {
+    .btn-success:hover {
         background: #218838;
     }
 
-    .btn-danger-custom {
+    .btn-danger {
         background: #dc3545;
         color: white;
     }
 
-    .btn-danger-custom:hover {
+    .btn-danger:hover {
         background: #c82333;
     }
 
-    .btn-secondary-custom {
+    .btn-secondary {
         background: #6c757d;
         color: white;
     }
 
-    .btn-secondary-custom:hover {
+    .btn-secondary:hover {
         background: #5a6268;
     }
 
     .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 16px;
     }
 
     .form-group label {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
         font-weight: 500;
+        font-size: 14px;
     }
 
     .form-group input,
     .form-group select {
         width: 100%;
-        padding: 8px 12px;
+        padding: 10px;
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 14px;
     }
 
-    .budget-progress {
-        margin: 15px 0;
+    .budget-item {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 16px;
+    }
+
+    .budget-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .budget-header h4 {
+        margin: 0;
+        font-size: 16px;
     }
 
     .progress-bar {
@@ -214,7 +249,6 @@
         background: #e9ecef;
         border-radius: 4px;
         overflow: hidden;
-        margin-top: 8px;
     }
 
     .progress-fill {
@@ -239,53 +273,55 @@
 
     .empty-state p {
         font-size: 16px;
-        margin: 10px 0;
     }
 </style>
 
-<div class="tab-container">
-    <div class="tabs">
-        <button class="tab-button @(activeTab == "dashboard" ? "active" : "")"
-                @onclick="@((e) => SwitchTab("dashboard"))">
+<div class="app-container">
+    <!-- Tabs Header -->
+    <div class="tabs-header">
+        <button class="tab-btn @(activeTab == "dashboard" ? "active" : "")"
+                @onclick="@((MouseEventArgs e) => SwitchTab("dashboard"))">
             📊 Dashboard
         </button>
-        <button class="tab-button @(activeTab == "transactions" ? "active" : "")"
-                @onclick="@((e) => SwitchTab("transactions"))">
+        <button class="tab-btn @(activeTab == "transactions" ? "active" : "")"
+                @onclick="@((MouseEventArgs e) => SwitchTab("transactions"))">
             💳 Transactions
         </button>
-        <button class="tab-button @(activeTab == "budgets" ? "active" : "")"
-                @onclick="@((e) => SwitchTab("budgets"))">
+        <button class="tab-btn @(activeTab == "budgets" ? "active" : "")"
+                @onclick="@((MouseEventArgs e) => SwitchTab("budgets"))">
             💰 Budgets
         </button>
-        <button class="tab-button @(activeTab == "settings" ? "active" : "")"
-                @onclick="@((e) => SwitchTab("settings"))">
+        <button class="tab-btn @(activeTab == "settings" ? "active" : "")"
+                @onclick="@((MouseEventArgs e) => SwitchTab("settings"))">
             ⚙️ Settings
         </button>
     </div>
 
-    <div class="tab-content">
+    <!-- Content Area -->
+    <div class="content-area">
         <!-- Dashboard Tab -->
-        <div class="content-section @(activeTab == "dashboard" ? "active" : "")">
+        <div class="tab-content @(activeTab == "dashboard" ? "active" : "")">
             <h2>Dashboard</h2>
-            <div class="dashboard-grid">
+
+            <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>Total Balance</h3>
-                    <div class="value">$@(totalBalance.ToString("F2"))</div>
+                    <h4>Total Balance</h4>
+                    <div class="stat-value">$@(totalBalance.ToString("F2"))</div>
                 </div>
                 <div class="stat-card income">
-                    <h3>Total Income</h3>
-                    <div class="value">$@(totalIncome.ToString("F2"))</div>
+                    <h4>Total Income</h4>
+                    <div class="stat-value">$@(totalIncome.ToString("F2"))</div>
                 </div>
                 <div class="stat-card expense">
-                    <h3>Total Expense</h3>
-                    <div class="value">$@(totalExpense.ToString("F2"))</div>
+                    <h4>Total Expense</h4>
+                    <div class="stat-value">$@(totalExpense.ToString("F2"))</div>
                 </div>
             </div>
 
-            <h3 style="margin-top: 30px;">Recent Transactions</h3>
-            @if (recentTransactions.Count > 0)
-            {
-                <div class="table-container">
+            <div class="card">
+                <h3>Recent Transactions</h3>
+                @if (recentTransactions.Count > 0)
+                {
                     <table>
                         <thead>
                             <tr>
@@ -303,66 +339,78 @@
                                     <td>@txn.Date.ToString("yyyy-MM-dd")</td>
                                     <td>@txn.Description</td>
                                     <td>@(txn.Category?.Name ?? "N/A")</td>
-                                    <td style="color: @(txn is Income ? "green" : "red")">
-                                        @(txn is Income ? "+" : "-")@(txn.Amount.Amount.ToString("F2"))
+                                    <td style="color: @(txn is Income ? "green" : "red"); font-weight: bold;">
+                                        @(txn is Income ? "+" : "-")$@(txn.Amount.Amount.ToString("F2"))
                                     </td>
                                     <td>@(txn is Income ? "Income" : "Expense")</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
-                </div>
-            }
-            else
-            {
-                <div class="empty-state">
-                    <p>No transactions yet</p>
-                </div>
-            }
-
-            <h3 style="margin-top: 30px;">Budget Status</h3>
-            @if (budgets.Count > 0)
-            {
-                @foreach (var budget in budgets.Take(5))
+                }
+                else
                 {
-                    var spent = TransactionRepo.GetAll()
-                        .Where(t => t.CategoryId == budget.CategoryId && t.Date >= budget.StartDate && t.Date <= budget.EndDate)
-                        .OfType<Expense>()
-                        .Sum(t => t.Amount.Amount);
-                    var percentage = (spent / budget.Amount.Amount) * 100;
-                    var progressClass = percentage > 100 ? "danger" : percentage > 80 ? "warning" : "";
-
-                    <div class="budget-progress">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <strong>@(budget.Category?.Name ?? "Budget")</strong>
-                            <span>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill @progressClass"
-                                 style="width: @(Math.Min(percentage, 100))%"></div>
-                        </div>
+                    <div class="empty-state">
+                        <p>No transactions yet</p>
                     </div>
                 }
-            }
-            else
-            {
-                <div class="empty-state">
-                    <p>No budgets set up yet</p>
+            </div>
+
+            <div class="card">
+                <h3>Budget Status</h3>
+                @if (budgets.Count > 0)
+                {
+                    @foreach (var budget in budgets.Take(5))
+                    {
+                        var spent = TransactionRepo.GetAll()
+                            .Where(t => t.CategoryId == budget.CategoryId && t.Date >= budget.StartDate && t.Date <= budget.EndDate)
+                            .OfType<Expense>()
+                            .Sum(t => t.Amount.Amount);
+                        var percentage = budget.Amount.Amount > 0 ? (spent / budget.Amount.Amount) * 100 : 0;
+                        var progressClass = percentage > 100 ? "danger" : percentage > 80 ? "warning" : "";
+
+                        <div class="budget-item">
+                            <div class="budget-header">
+                                <h4>@(budget.Category?.Name ?? "Budget")</h4>
+                                <span>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill @progressClass"
+                                     style="width: @(Math.Min(percentage, 100))%"></div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <p>No budgets set up yet</p>
+                    </div>
+                }
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" @onclick="OnAddBudget">+ Add Budget</button>
+                    <button class="btn btn-secondary" @onclick="OnEditBudget">Edit Budget</button>
+                    <button class="btn btn-danger" @onclick="OnDeleteBudget">Delete Budget</button>
                 </div>
-            }
+            </div>
         </div>
 
         <!-- Transactions Tab -->
-        <div class="content-section @(activeTab == "transactions" ? "active" : "")">
+        <div class="tab-content @(activeTab == "transactions" ? "active" : "")">
             <h2>Transactions</h2>
-            <div class="form-group">
-                <label>Search Description</label>
-                <input type="text" @bind="searchText" placeholder="Search transactions..." />
+
+            <div class="card">
+                <div class="form-group">
+                    <label>Search Description</label>
+                    <input type="text" @bind="searchText" placeholder="Enter description to search..." />
+                </div>
             </div>
 
-            @if (allTransactions.Count > 0)
-            {
-                <div class="table-container">
+            <div class="card">
+                <h3>All Transactions (@filteredTransactions.Count)</h3>
+                @if (filteredTransactions.Count > 0)
+                {
                     <table>
                         <thead>
                             <tr>
@@ -380,90 +428,105 @@
                                     <td>@txn.Date.ToString("yyyy-MM-dd")</td>
                                     <td>@txn.Description</td>
                                     <td>@(txn.Category?.Name ?? "N/A")</td>
-                                    <td style="color: @(txn is Income ? "green" : "red")">
-                                        @(txn is Income ? "+" : "-")@(txn.Amount.Amount.ToString("F2"))
+                                    <td style="color: @(txn is Income ? "green" : "red"); font-weight: bold;">
+                                        @(txn is Income ? "+" : "-")$@(txn.Amount.Amount.ToString("F2"))
                                     </td>
                                     <td>@(txn is Income ? "Income" : "Expense")</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <p>@(string.IsNullOrWhiteSpace(searchText) ? "No transactions available" : "No transactions match your search")</p>
+                    </div>
+                }
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" @onclick="OnAddTransaction">+ Add Transaction</button>
+                    <button class="btn btn-secondary" @onclick="OnEditTransaction">Edit Transaction</button>
+                    <button class="btn btn-danger" @onclick="OnDeleteTransaction">Delete Transaction</button>
+                    <button class="btn btn-secondary" @onclick="OnImportCSV">Import CSV</button>
                 </div>
-            }
-            else
-            {
-                <div class="empty-state">
-                    <p>No transactions available</p>
-                </div>
-            }
+            </div>
         </div>
 
         <!-- Budgets Tab -->
-        <div class="content-section @(activeTab == "budgets" ? "active" : "")">
+        <div class="tab-content @(activeTab == "budgets" ? "active" : "")">
             <h2>Budgets</h2>
-            @if (budgets.Count > 0)
-            {
-                @foreach (var budget in budgets)
-                {
-                    var spent = TransactionRepo.GetAll()
-                        .Where(t => t.CategoryId == budget.CategoryId && t.Date >= budget.StartDate && t.Date <= budget.EndDate)
-                        .OfType<Expense>()
-                        .Sum(t => t.Amount.Amount);
-                    var percentage = (spent / budget.Amount.Amount) * 100;
-                    var progressClass = percentage > 100 ? "danger" : percentage > 80 ? "warning" : "";
 
-                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h4 style="margin: 0;">@(budget.Category?.Name ?? "Budget")</h4>
-                                <p style="margin: 5px 0; color: #666;">
-                                    @budget.StartDate.ToString("MMM dd") - @budget.EndDate.ToString("MMM dd")
-                                </p>
+            <div class="card">
+                <h3>All Budgets (@budgets.Count)</h3>
+                @if (budgets.Count > 0)
+                {
+                    @foreach (var budget in budgets)
+                    {
+                        var spent = TransactionRepo.GetAll()
+                            .Where(t => t.CategoryId == budget.CategoryId && t.Date >= budget.StartDate && t.Date <= budget.EndDate)
+                            .OfType<Expense>()
+                            .Sum(t => t.Amount.Amount);
+                        var percentage = budget.Amount.Amount > 0 ? (spent / budget.Amount.Amount) * 100 : 0;
+                        var progressClass = percentage > 100 ? "danger" : percentage > 80 ? "warning" : "";
+
+                        <div class="budget-item">
+                            <div class="budget-header">
+                                <div>
+                                    <h4>@(budget.Category?.Name ?? "Budget")</h4>
+                                    <small style="color: #666;">@budget.StartDate.ToString("MMM dd") - @budget.EndDate.ToString("MMM dd")</small>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</strong>
+                                    <br />
+                                    <small style="color: #666;">@percentage.ToString("F1")% Used</small>
+                                </div>
                             </div>
-                            <div style="text-align: right;">
-                                <strong>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</strong>
-                                <p style="margin: 5px 0; color: #666; font-size: 12px;">@percentage.ToString("F1")% Used</p>
+                            <div class="progress-bar">
+                                <div class="progress-fill @progressClass"
+                                     style="width: @(Math.Min(percentage, 100))%"></div>
                             </div>
                         </div>
-                        <div class="progress-bar" style="margin-top: 10px;">
-                            <div class="progress-fill @progressClass"
-                                 style="width: @(Math.Min(percentage, 100))%"></div>
-                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <p>No budgets set up yet. Create one to track your spending!</p>
                     </div>
                 }
-            }
-            else
-            {
-                <div class="empty-state">
-                    <p>No budgets set up yet. Create one to track your spending!</p>
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" @onclick="OnAddBudget">+ Add Budget</button>
+                    <button class="btn btn-secondary" @onclick="OnEditBudget">Edit Budget</button>
+                    <button class="btn btn-danger" @onclick="OnDeleteBudget">Delete Budget</button>
                 </div>
-            }
+            </div>
         </div>
 
         <!-- Settings Tab -->
-        <div class="content-section @(activeTab == "settings" ? "active" : "")">
+        <div class="tab-content @(activeTab == "settings" ? "active" : "")">
             <h2>Settings</h2>
-            <div style="max-width: 600px;">
-                <h3>Categories</h3>
+
+            <div class="card">
+                <h3>Categories (@categories.Count)</h3>
                 @if (categories.Count > 0)
                 {
-                    <div class="table-container">
-                        <table>
-                            <thead>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Category Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cat in categories)
+                            {
                                 <tr>
-                                    <th>Category Name</th>
+                                    <td>@cat.Name</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var cat in categories)
-                                {
-                                    <tr>
-                                        <td>@cat.Name</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 }
                 else
                 {
@@ -471,6 +534,22 @@
                         <p>No categories available</p>
                     </div>
                 }
+
+                <div class="btn-group">
+                    <button class="btn btn-primary" @onclick="OnAddCategory">+ Add Category</button>
+                    <button class="btn btn-secondary" @onclick="OnEditCategory">Edit Category</button>
+                    <button class="btn btn-danger" @onclick="OnDeleteCategory">Delete Category</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Accounts</h3>
+                <p style="color: #666; font-size: 14px;">Account management features coming soon...</p>
+                <div class="btn-group">
+                    <button class="btn btn-primary" @onclick="OnAddAccount">+ Add Account</button>
+                    <button class="btn btn-secondary" @onclick="OnEditAccount">Edit Account</button>
+                    <button class="btn btn-danger" @onclick="OnDeleteAccount">Delete Account</button>
+                </div>
             </div>
         </div>
     </div>
@@ -494,12 +573,10 @@
 
     private void LoadData()
     {
-        // Load all data from repositories
         allTransactions = TransactionRepo.GetAll().ToList();
         budgets = BudgetRepo.GetAll().ToList();
         categories = CategoryRepo.GetAll().ToList();
 
-        // Calculate totals
         var incomes = allTransactions.OfType<Income>();
         var expenses = allTransactions.OfType<Expense>();
 
@@ -507,7 +584,6 @@
         totalExpense = expenses.Sum(t => t.Amount.Amount);
         totalBalance = totalIncome - totalExpense;
 
-        // Get recent transactions
         recentTransactions = allTransactions
             .OrderByDescending(t => t.Date)
             .Take(10)
@@ -531,6 +607,76 @@
     private void SwitchTab(string tabName)
     {
         activeTab = tabName;
-        LoadData();
+        StateHasChanged();
+    }
+
+    // Budget handlers
+    private void OnAddBudget()
+    {
+        // Placeholder - will implement dialog later
+        Console.WriteLine("Add Budget clicked");
+    }
+
+    private void OnEditBudget()
+    {
+        Console.WriteLine("Edit Budget clicked");
+    }
+
+    private void OnDeleteBudget()
+    {
+        Console.WriteLine("Delete Budget clicked");
+    }
+
+    // Transaction handlers
+    private void OnAddTransaction()
+    {
+        Console.WriteLine("Add Transaction clicked");
+    }
+
+    private void OnEditTransaction()
+    {
+        Console.WriteLine("Edit Transaction clicked");
+    }
+
+    private void OnDeleteTransaction()
+    {
+        Console.WriteLine("Delete Transaction clicked");
+    }
+
+    private void OnImportCSV()
+    {
+        Console.WriteLine("Import CSV clicked");
+    }
+
+    // Category handlers
+    private void OnAddCategory()
+    {
+        Console.WriteLine("Add Category clicked");
+    }
+
+    private void OnEditCategory()
+    {
+        Console.WriteLine("Edit Category clicked");
+    }
+
+    private void OnDeleteCategory()
+    {
+        Console.WriteLine("Delete Category clicked");
+    }
+
+    // Account handlers
+    private void OnAddAccount()
+    {
+        Console.WriteLine("Add Account clicked");
+    }
+
+    private void OnEditAccount()
+    {
+        Console.WriteLine("Edit Account clicked");
+    }
+
+    private void OnDeleteAccount()
+    {
+        Console.WriteLine("Delete Account clicked");
     }
 }
