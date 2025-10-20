@@ -12,6 +12,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddSingleton(new InMemoryRepository<Category>());
 builder.Services.AddSingleton(new InMemoryRepository<Transaction>());
 builder.Services.AddSingleton(new InMemoryRepository<Budget>());
+builder.Services.AddSingleton(new InMemoryRepository<Account>());
 
 var app = builder.Build();
 

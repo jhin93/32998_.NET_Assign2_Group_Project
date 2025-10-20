@@ -167,6 +167,9 @@
     public bool IsEditMode { get; set; }
 
     [Parameter]
+    public Account? CurrentAccount { get; set; }
+
+    [Parameter]
     public EventCallback OnSave { get; set; }
 
     [Parameter]
@@ -177,6 +180,21 @@
     private decimal initialBalance = 0;
     private string description = "";
     private string errorMessage = "";
+
+    protected override void OnParametersSet()
+    {
+        if (IsEditMode && CurrentAccount != null)
+        {
+            accountName = CurrentAccount.Name;
+            accountType = CurrentAccount.AccountType;
+            initialBalance = CurrentAccount.InitialBalance;
+            description = CurrentAccount.Description ?? "";
+        }
+        else
+        {
+            ResetForm();
+        }
+    }
 
     private void ResetForm()
     {

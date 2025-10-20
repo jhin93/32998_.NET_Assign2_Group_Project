@@ -6,6 +6,7 @@
 @inject InMemoryRepository<Category> CategoryRepo
 @inject InMemoryRepository<Transaction> TransactionRepo
 @inject InMemoryRepository<Budget> BudgetRepo
+@inject InMemoryRepository<Account> AccountRepo
 
 <PageTitle>Budget Tracker</PageTitle>
 
@@ -544,8 +545,38 @@
             </div>
 
             <div class="card">
-                <h3>Accounts</h3>
-                <p style="color: #666; font-size: 14px;">Account management features coming soon...</p>
+                <h3>Accounts (@accounts.Count)</h3>
+                @if (accounts.Count > 0)
+                {
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Account Name</th>
+                                <th>Type</th>
+                                <th>Initial Balance</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var acc in accounts)
+                            {
+                                <tr>
+                                    <td>@acc.Name</td>
+                                    <td>@acc.AccountType</td>
+                                    <td>$@acc.InitialBalance.ToString("F2")</td>
+                                    <td>@(acc.Description ?? "N/A")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <p>No accounts available</p>
+                    </div>
+                }
+
                 <div class="btn-group">
                     <button class="btn btn-primary" @onclick="OnAddAccount">+ Add Account</button>
                     <button class="btn btn-secondary" @onclick="OnEditAccount">Edit Account</button>
@@ -583,6 +614,7 @@
 <AccountModal @ref="accountModal"
               IsOpen="showAccountModal"
               IsEditMode="isAccountEditMode"
+              CurrentAccount="selectedAccount"
               OnSave="SaveAccount"
               OnClose="CloseAccountModal" />
 
@@ -596,6 +628,7 @@
     private List<Budget> budgets = new();
     private List<Category> categories = new();
     private List<Transaction> allTransactions = new();
+    private List<Account> accounts = new();
 
     // Modal references
     private BudgetModal? budgetModal;
@@ -618,6 +651,7 @@
 
     private bool showAccountModal = false;
     private bool isAccountEditMode = false;
+    private Account? selectedAccount = null;
 
     protected override void OnInitialized()
     {
@@ -629,6 +663,7 @@
         allTransactions = TransactionRepo.GetAll().ToList();
         budgets = BudgetRepo.GetAll().ToList();
         categories = CategoryRepo.GetAll().ToList();
+        accounts = AccountRepo.GetAll().ToList();
 
         var incomes = allTransactions.OfType<Income>();
         var expenses = allTransactions.OfType<Expense>();
@@ -927,20 +962,38 @@
     private void OnAddAccount()
     {
         isAccountEditMode = false;
+        selectedAccount = null;
         showAccountModal = true;
         StateHasChanged();
     }
 
     private void OnEditAccount()
     {
+        if (accounts.Count == 0)
+        {
+            Console.WriteLine("No accounts to edit");
+            return;
+        }
+
         isAccountEditMode = true;
+        selectedAccount = accounts.First();
         showAccountModal = true;
         StateHasChanged();
     }
 
     private void OnDeleteAccount()
     {
-        Console.WriteLine("Delete Account - Feature coming soon");
+        if (accounts.Count == 0)
+        {
+            Console.WriteLine("No accounts to delete");
+            return;
+        }
+
+        var accountToDelete = accounts.First();
+        AccountRepo.Remove(accountToDelete);
+        LoadData();
+        StateHasChanged();
+        Console.WriteLine($"Account deleted: {accountToDelete.Name}");
     }
 
     private void SaveAccount()
@@ -952,13 +1005,29 @@
         var balance = accountModal.GetInitialBalance();
         var description = accountModal.GetDescription();
 
-        Console.WriteLine($"Account saved: {name} ({type}) - ${balance}");
+        if (isAccountEditMode && selectedAccount != null)
+        {
+            // Update existing account
+            selectedAccount.Update(name, type, balance, description);
+            AccountRepo.Update(selectedAccount);
+            Console.WriteLine($"Account updated: {name}");
+        }
+        else
+        {
+            // Create new account
+            var account = new Account(name, type, balance, description);
+            AccountRepo.Add(account);
+            Console.WriteLine($"Account added: {name}");
+        }
+
+        LoadData();
         CloseAccountModal();
     }
 
     private void CloseAccountModal()
     {
         showAccountModal = false;
+        selectedAccount = null;
         StateHasChanged();
     }
 }
