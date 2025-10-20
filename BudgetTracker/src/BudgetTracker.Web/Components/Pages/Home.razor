@@ -425,6 +425,7 @@
                                 <th>Category</th>
                                 <th>Amount</th>
                                 <th>Type</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -438,6 +439,10 @@
                                         @(txn is Income ? "+" : "-")$@(txn.Amount.Amount.ToString("F2"))
                                     </td>
                                     <td>@(txn is Income ? "Income" : "Expense")</td>
+                                    <td>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;" @onclick="() => OnEditTransaction(txn)">Edit</button>
+                                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnDeleteTransaction(txn)">Delete</button>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
@@ -452,8 +457,6 @@
 
                 <div class="btn-group">
                     <button class="btn btn-primary" @onclick="OnAddTransaction">+ Add Transaction</button>
-                    <button class="btn btn-secondary" @onclick="OnEditTransaction">Edit Transaction</button>
-                    <button class="btn btn-danger" @onclick="OnDeleteTransaction">Delete Transaction</button>
                     <button class="btn btn-secondary" @onclick="OnImportCSV">Import CSV</button>
                 </div>
             </div>
@@ -792,33 +795,20 @@
         StateHasChanged();
     }
 
-    private void OnEditTransaction()
+    private void OnEditTransaction(Transaction transaction)
     {
-        if (allTransactions.Count == 0)
-        {
-            Console.WriteLine("No transactions to edit");
-            return;
-        }
-
         isTransactionEditMode = true;
-        selectedTransaction = allTransactions.First();
+        selectedTransaction = transaction;
         showTransactionModal = true;
         StateHasChanged();
     }
 
-    private void OnDeleteTransaction()
+    private void OnDeleteTransaction(Transaction transaction)
     {
-        if (allTransactions.Count == 0)
-        {
-            Console.WriteLine("No transactions to delete");
-            return;
-        }
-
-        var txnToDelete = allTransactions.OrderBy(t => t.Date).First();
-        TransactionRepo.Remove(txnToDelete);
+        TransactionRepo.Remove(transaction);
         LoadData();
         StateHasChanged();
-        Console.WriteLine($"Transaction deleted: {txnToDelete.Description}");
+        Console.WriteLine($"Transaction deleted: {transaction.Description}");
     }
 
     private void SaveTransaction()
