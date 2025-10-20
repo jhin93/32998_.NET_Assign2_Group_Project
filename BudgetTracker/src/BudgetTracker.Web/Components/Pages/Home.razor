@@ -2,6 +2,7 @@
 @rendermode InteractiveServer
 @using BudgetTracker.Data
 @using BudgetTracker.Domain.Entities
+@using BudgetTracker.Domain.ValueObjects
 @inject InMemoryRepository<Category> CategoryRepo
 @inject InMemoryRepository<Transaction> TransactionRepo
 @inject InMemoryRepository<Budget> BudgetRepo
@@ -555,6 +556,36 @@
     </div>
 </div>
 
+<!-- Modals -->
+<BudgetModal @ref="budgetModal"
+             IsOpen="showBudgetModal"
+             IsEditMode="isBudgetEditMode"
+             CurrentBudget="selectedBudget"
+             Categories="categories"
+             OnSave="SaveBudget"
+             OnClose="CloseBudgetModal" />
+
+<TransactionModal @ref="transactionModal"
+                  IsOpen="showTransactionModal"
+                  IsEditMode="isTransactionEditMode"
+                  CurrentTransaction="selectedTransaction"
+                  Categories="categories"
+                  OnSave="SaveTransaction"
+                  OnClose="CloseTransactionModal" />
+
+<CategoryModal @ref="categoryModal"
+               IsOpen="showCategoryModal"
+               IsEditMode="isCategoryEditMode"
+               CurrentCategory="selectedCategory"
+               OnSave="SaveCategory"
+               OnClose="CloseCategoryModal" />
+
+<AccountModal @ref="accountModal"
+              IsOpen="showAccountModal"
+              IsEditMode="isAccountEditMode"
+              OnSave="SaveAccount"
+              OnClose="CloseAccountModal" />
+
 @code {
     private string activeTab = "dashboard";
     private string searchText = "";
@@ -565,6 +596,28 @@
     private List<Budget> budgets = new();
     private List<Category> categories = new();
     private List<Transaction> allTransactions = new();
+
+    // Modal references
+    private BudgetModal? budgetModal;
+    private TransactionModal? transactionModal;
+    private CategoryModal? categoryModal;
+    private AccountModal? accountModal;
+
+    // Modal state
+    private bool showBudgetModal = false;
+    private bool isBudgetEditMode = false;
+    private Budget? selectedBudget = null;
+
+    private bool showTransactionModal = false;
+    private bool isTransactionEditMode = false;
+    private Transaction? selectedTransaction = null;
+
+    private bool showCategoryModal = false;
+    private bool isCategoryEditMode = false;
+    private Category? selectedCategory = null;
+
+    private bool showAccountModal = false;
+    private bool isAccountEditMode = false;
 
     protected override void OnInitialized()
     {
@@ -610,73 +663,302 @@
         StateHasChanged();
     }
 
-    // Budget handlers
+    // ==================== BUDGET HANDLERS ====================
     private void OnAddBudget()
     {
-        // Placeholder - will implement dialog later
-        Console.WriteLine("Add Budget clicked");
+        isBudgetEditMode = false;
+        selectedBudget = null;
+        showBudgetModal = true;
+        StateHasChanged();
     }
 
     private void OnEditBudget()
     {
-        Console.WriteLine("Edit Budget clicked");
+        if (budgets.Count == 0)
+        {
+            Console.WriteLine("No budgets to edit");
+            return;
+        }
+
+        isBudgetEditMode = true;
+        selectedBudget = budgets.First();
+        showBudgetModal = true;
+        StateHasChanged();
     }
 
     private void OnDeleteBudget()
     {
-        Console.WriteLine("Delete Budget clicked");
+        if (budgets.Count == 0)
+        {
+            Console.WriteLine("No budgets to delete");
+            return;
+        }
+
+        var budgetToDelete = budgets.First();
+        BudgetRepo.Remove(budgetToDelete);
+        LoadData();
+        StateHasChanged();
+        Console.WriteLine($"Budget deleted: {budgetToDelete.Category?.Name}");
     }
 
-    // Transaction handlers
+    private void SaveBudget()
+    {
+        if (budgetModal == null) return;
+
+        var categoryId = budgetModal.GetSelectedCategoryId();
+        var amount = budgetModal.GetBudgetAmount();
+        var startDate = budgetModal.GetStartDate();
+        var endDate = budgetModal.GetEndDate();
+
+        if (isBudgetEditMode && selectedBudget != null)
+        {
+            // Update existing budget
+            selectedBudget.CategoryId = categoryId;
+            selectedBudget.Amount = new Money(amount);
+            selectedBudget.StartDate = startDate;
+            selectedBudget.EndDate = endDate;
+            BudgetRepo.Update(selectedBudget);
+            Console.WriteLine($"Budget updated: {selectedBudget.Category?.Name}");
+        }
+        else
+        {
+            // Create new budget
+            var category = categories.FirstOrDefault(c => c.Id == categoryId);
+            var budget = new Budget(
+                category?.Name ?? "Budget",
+                new Money(amount),
+                categoryId,
+                startDate,
+                endDate
+            );
+            budget.Category = category;
+            BudgetRepo.Add(budget);
+            Console.WriteLine($"Budget added: {category?.Name}");
+        }
+
+        LoadData();
+        CloseBudgetModal();
+    }
+
+    private void CloseBudgetModal()
+    {
+        showBudgetModal = false;
+        selectedBudget = null;
+        StateHasChanged();
+    }
+
+    // ==================== TRANSACTION HANDLERS ====================
     private void OnAddTransaction()
     {
-        Console.WriteLine("Add Transaction clicked");
+        isTransactionEditMode = false;
+        selectedTransaction = null;
+        showTransactionModal = true;
+        StateHasChanged();
     }
 
     private void OnEditTransaction()
     {
-        Console.WriteLine("Edit Transaction clicked");
+        if (allTransactions.Count == 0)
+        {
+            Console.WriteLine("No transactions to edit");
+            return;
+        }
+
+        isTransactionEditMode = true;
+        selectedTransaction = allTransactions.First();
+        showTransactionModal = true;
+        StateHasChanged();
     }
 
     private void OnDeleteTransaction()
     {
-        Console.WriteLine("Delete Transaction clicked");
+        if (allTransactions.Count == 0)
+        {
+            Console.WriteLine("No transactions to delete");
+            return;
+        }
+
+        var txnToDelete = allTransactions.First();
+        TransactionRepo.Remove(txnToDelete);
+        LoadData();
+        StateHasChanged();
+        Console.WriteLine($"Transaction deleted: {txnToDelete.Description}");
+    }
+
+    private void SaveTransaction()
+    {
+        if (transactionModal == null) return;
+
+        var type = transactionModal.GetSelectedType();
+        var categoryId = transactionModal.GetSelectedCategoryId();
+        var description = transactionModal.GetDescription();
+        var amount = transactionModal.GetAmount();
+        var date = transactionModal.GetTransactionDate();
+
+        if (isTransactionEditMode && selectedTransaction != null)
+        {
+            // Update existing transaction
+            selectedTransaction.CategoryId = categoryId;
+            selectedTransaction.Description = description;
+            selectedTransaction.Amount = new Money(amount);
+            selectedTransaction.Date = date;
+            TransactionRepo.Update(selectedTransaction);
+            Console.WriteLine($"Transaction updated: {description}");
+        }
+        else
+        {
+            // Create new transaction
+            var category = categories.FirstOrDefault(c => c.Id == categoryId);
+            Transaction transaction;
+
+            if (type == "income")
+            {
+                transaction = new Income(
+                    description,
+                    new Money(amount),
+                    date,
+                    categoryId
+                );
+            }
+            else
+            {
+                transaction = new Expense(
+                    description,
+                    new Money(amount),
+                    date,
+                    categoryId
+                );
+            }
+
+            transaction.Category = category;
+            TransactionRepo.Add(transaction);
+            Console.WriteLine($"Transaction added: {description}");
+        }
+
+        LoadData();
+        CloseTransactionModal();
+    }
+
+    private void CloseTransactionModal()
+    {
+        showTransactionModal = false;
+        selectedTransaction = null;
+        StateHasChanged();
     }
 
     private void OnImportCSV()
     {
-        Console.WriteLine("Import CSV clicked");
+        Console.WriteLine("Import CSV - Feature coming soon");
     }
 
-    // Category handlers
+    // ==================== CATEGORY HANDLERS ====================
     private void OnAddCategory()
     {
-        Console.WriteLine("Add Category clicked");
+        isCategoryEditMode = false;
+        selectedCategory = null;
+        showCategoryModal = true;
+        StateHasChanged();
     }
 
     private void OnEditCategory()
     {
-        Console.WriteLine("Edit Category clicked");
+        if (categories.Count == 0)
+        {
+            Console.WriteLine("No categories to edit");
+            return;
+        }
+
+        isCategoryEditMode = true;
+        selectedCategory = categories.First();
+        showCategoryModal = true;
+        StateHasChanged();
     }
 
     private void OnDeleteCategory()
     {
-        Console.WriteLine("Delete Category clicked");
+        if (categories.Count == 0)
+        {
+            Console.WriteLine("No categories to delete");
+            return;
+        }
+
+        var catToDelete = categories.First();
+        CategoryRepo.Remove(catToDelete);
+        LoadData();
+        StateHasChanged();
+        Console.WriteLine($"Category deleted: {catToDelete.Name}");
     }
 
-    // Account handlers
+    private void SaveCategory()
+    {
+        if (categoryModal == null) return;
+
+        var name = categoryModal.GetCategoryName();
+        var description = categoryModal.GetDescription();
+
+        if (isCategoryEditMode && selectedCategory != null)
+        {
+            // Update existing category
+            selectedCategory.Name = name;
+            selectedCategory.Description = description;
+            CategoryRepo.Update(selectedCategory);
+            Console.WriteLine($"Category updated: {name}");
+        }
+        else
+        {
+            // Create new category
+            var category = new Category(name, description);
+            CategoryRepo.Add(category);
+            Console.WriteLine($"Category added: {name}");
+        }
+
+        LoadData();
+        CloseCategoryModal();
+    }
+
+    private void CloseCategoryModal()
+    {
+        showCategoryModal = false;
+        selectedCategory = null;
+        StateHasChanged();
+    }
+
+    // ==================== ACCOUNT HANDLERS ====================
     private void OnAddAccount()
     {
-        Console.WriteLine("Add Account clicked");
+        isAccountEditMode = false;
+        showAccountModal = true;
+        StateHasChanged();
     }
 
     private void OnEditAccount()
     {
-        Console.WriteLine("Edit Account clicked");
+        isAccountEditMode = true;
+        showAccountModal = true;
+        StateHasChanged();
     }
 
     private void OnDeleteAccount()
     {
-        Console.WriteLine("Delete Account clicked");
+        Console.WriteLine("Delete Account - Feature coming soon");
+    }
+
+    private void SaveAccount()
+    {
+        if (accountModal == null) return;
+
+        var name = accountModal.GetAccountName();
+        var type = accountModal.GetAccountType();
+        var balance = accountModal.GetInitialBalance();
+        var description = accountModal.GetDescription();
+
+        Console.WriteLine($"Account saved: {name} ({type}) - ${balance}");
+        CloseAccountModal();
+    }
+
+    private void CloseAccountModal()
+    {
+        showAccountModal = false;
+        StateHasChanged();
     }
 }
