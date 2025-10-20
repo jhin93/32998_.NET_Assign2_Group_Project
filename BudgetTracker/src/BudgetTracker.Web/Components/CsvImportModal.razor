@@ -1,0 +1,361 @@
+@using BudgetTracker.Domain.Entities
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Globalization
+
+@if (IsOpen)
+{
+<div class="modal-overlay active" @onclick="OnOverlayClick">
+    <div class="modal-dialog" @onclick:stopPropagation>
+        <div class="modal-header">
+            <h3>Import Transactions from CSV</h3>
+            <button class="modal-close" @onclick="Close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="info-box">
+                <p><strong>CSV Format:</strong></p>
+                <p>Date,Description,Category,Amount,Type</p>
+                <p><small>Example: 2024-01-15,Grocery Shopping,Food,50.00,Expense</small></p>
+                <p><small>Type should be either "Income" or "Expense"</small></p>
+            </div>
+
+            <div class="form-group">
+                <label>Select CSV File</label>
+                <InputFile OnChange="HandleFileSelected" accept=".csv" class="form-control" />
+            </div>
+
+            @if (!string.IsNullOrEmpty(fileName))
+            {
+                <p style="color: #666; margin-top: 10px;">Selected: @fileName</p>
+            }
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">@errorMessage</div>
+            }
+
+            @if (!string.IsNullOrEmpty(successMessage))
+            {
+                <div class="alert alert-success">@successMessage</div>
+            }
+
+            @if (previewTransactions.Count > 0)
+            {
+                <div style="margin-top: 20px;">
+                    <h4>Preview (@previewTransactions.Count transactions)</h4>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <table style="width: 100%; font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var txn in previewTransactions)
+                                {
+                                    <tr>
+                                        <td>@txn.Date.ToString("yyyy-MM-dd")</td>
+                                        <td>@txn.Description</td>
+                                        <td>@txn.CategoryName</td>
+                                        <td>$@txn.Amount.ToString("F2")</td>
+                                        <td>@txn.Type</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" @onclick="Close">Cancel</button>
+            <button class="btn btn-primary" @onclick="Import" disabled="@(previewTransactions.Count == 0)">Import @previewTransactions.Count Transactions</button>
+        </div>
+    </div>
+</div>
+}
+
+<style>
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-dialog {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        width: 90%;
+        max-width: 700px;
+        animation: slideIn 0.3s ease;
+        pointer-events: auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    @@keyframes slideIn {
+        from {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .modal-header {
+        padding: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-header h3 {
+        margin: 0;
+        font-size: 20px;
+        color: #333;
+    }
+
+    .modal-close {
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #666;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-close:hover {
+        color: #000;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .modal-footer {
+        padding: 20px;
+        border-top: 1px solid #e0e0e0;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: inherit;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    }
+
+    .alert {
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 16px;
+    }
+
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .info-box {
+        background: #e7f3ff;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        border-left: 4px solid #007bff;
+    }
+
+    .info-box p {
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .info-box small {
+        color: #666;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        background: #f8f9fa;
+        padding: 8px;
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    td {
+        padding: 8px;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    tr:hover {
+        background: #f8f9fa;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<List<CsvTransaction>> OnImport { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    [Parameter]
+    public List<Category> Categories { get; set; } = new();
+
+    private string fileName = "";
+    private string errorMessage = "";
+    private string successMessage = "";
+    private List<CsvTransaction> previewTransactions = new();
+
+    public class CsvTransaction
+    {
+        public DateTime Date { get; set; }
+        public string Description { get; set; } = "";
+        public string CategoryName { get; set; } = "";
+        public decimal Amount { get; set; }
+        public string Type { get; set; } = "";
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        errorMessage = "";
+        successMessage = "";
+        previewTransactions.Clear();
+
+        var file = e.File;
+        fileName = file.Name;
+
+        if (!file.Name.EndsWith(".csv", StringComparison.OrdinalIgnoreCase))
+        {
+            errorMessage = "Please select a CSV file";
+            return;
+        }
+
+        try
+        {
+            using var stream = file.OpenReadStream(maxAllowedSize: 1024 * 1024); // 1MB max
+            using var reader = new StreamReader(stream);
+
+            var line = await reader.ReadLineAsync(); // Skip header
+            var transactions = new List<CsvTransaction>();
+
+            while ((line = await reader.ReadLineAsync()) != null)
+            {
+                if (string.IsNullOrWhiteSpace(line)) continue;
+
+                var parts = line.Split(',');
+                if (parts.Length < 5)
+                {
+                    errorMessage = $"Invalid CSV format on line. Expected 5 columns, found {parts.Length}";
+                    continue;
+                }
+
+                try
+                {
+                    var transaction = new CsvTransaction
+                    {
+                        Date = DateTime.Parse(parts[0].Trim()),
+                        Description = parts[1].Trim(),
+                        CategoryName = parts[2].Trim(),
+                        Amount = decimal.Parse(parts[3].Trim(), CultureInfo.InvariantCulture),
+                        Type = parts[4].Trim()
+                    };
+
+                    if (transaction.Type != "Income" && transaction.Type != "Expense")
+                    {
+                        errorMessage = $"Invalid type '{transaction.Type}'. Must be 'Income' or 'Expense'";
+                        continue;
+                    }
+
+                    transactions.Add(transaction);
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = $"Error parsing line: {ex.Message}";
+                }
+            }
+
+            previewTransactions = transactions;
+            if (transactions.Count > 0)
+            {
+                successMessage = $"Successfully loaded {transactions.Count} transactions. Review and click Import to add them.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error reading file: {ex.Message}";
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task Import()
+    {
+        if (previewTransactions.Count == 0)
+        {
+            errorMessage = "No transactions to import";
+            return;
+        }
+
+        await OnImport.InvokeAsync(previewTransactions);
+        Close();
+    }
+
+    public void Close()
+    {
+        fileName = "";
+        errorMessage = "";
+        successMessage = "";
+        previewTransactions.Clear();
+        InvokeAsync(async () => await OnClose.InvokeAsync());
+    }
+
+    private void OnOverlayClick(MouseEventArgs e)
+    {
+        // Only close when clicking the overlay background, not the dialog content
+        Close();
+    }
+}

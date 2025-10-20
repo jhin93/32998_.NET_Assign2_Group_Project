@@ -637,6 +637,11 @@
               OnSave="SaveAccount"
               OnClose="CloseAccountModal" />
 
+<CsvImportModal IsOpen="showCsvImportModal"
+                Categories="categories"
+                OnImport="HandleCsvImport"
+                OnClose="CloseCsvImportModal" />
+
 @code {
     private string activeTab = "dashboard";
     private string searchText = "";
@@ -671,6 +676,8 @@
     private bool showAccountModal = false;
     private bool isAccountEditMode = false;
     private Account? selectedAccount = null;
+
+    private bool showCsvImportModal = false;
 
     protected override void OnInitialized()
     {
@@ -876,7 +883,82 @@
 
     private void OnImportCSV()
     {
-        Console.WriteLine("Import CSV - Feature coming soon");
+        showCsvImportModal = true;
+        StateHasChanged();
+    }
+
+    private void HandleCsvImport(List<CsvImportModal.CsvTransaction> csvTransactions)
+    {
+        try
+        {
+            int successCount = 0;
+            int errorCount = 0;
+
+            foreach (var csvTxn in csvTransactions)
+            {
+                try
+                {
+                    // Find or create category
+                    var category = categories.FirstOrDefault(c =>
+                        c.Name.Equals(csvTxn.CategoryName, StringComparison.OrdinalIgnoreCase));
+
+                    if (category == null)
+                    {
+                        // Create new category
+                        category = new Category(csvTxn.CategoryName, $"Imported from CSV");
+                        CategoryRepo.Add(category);
+                        categories.Add(category);
+                    }
+
+                    // Create transaction
+                    var money = new Money(csvTxn.Amount);
+                    Transaction transaction;
+
+                    if (csvTxn.Type.Equals("Income", StringComparison.OrdinalIgnoreCase))
+                    {
+                        transaction = new Income(
+                            csvTxn.Description,
+                            money,
+                            csvTxn.Date,
+                            category.Id
+                        );
+                    }
+                    else
+                    {
+                        transaction = new Expense(
+                            csvTxn.Description,
+                            money,
+                            csvTxn.Date,
+                            category.Id
+                        );
+                    }
+
+                    transaction.Category = category;
+                    TransactionRepo.Add(transaction);
+                    successCount++;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error importing transaction: {ex.Message}");
+                    errorCount++;
+                }
+            }
+
+            LoadData();
+            StateHasChanged();
+
+            Console.WriteLine($"CSV Import completed: {successCount} successful, {errorCount} errors");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error during CSV import: {ex.Message}");
+        }
+    }
+
+    private void CloseCsvImportModal()
+    {
+        showCsvImportModal = false;
+        StateHasChanged();
     }
 
     // ==================== CATEGORY HANDLERS ====================
