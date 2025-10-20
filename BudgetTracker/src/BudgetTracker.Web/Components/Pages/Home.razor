@@ -529,6 +529,7 @@
                         <thead>
                             <tr>
                                 <th>Category Name</th>
+                                <th>Description</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -537,6 +538,7 @@
                             {
                                 <tr>
                                     <td>@cat.Name</td>
+                                    <td>@(cat.Description ?? "N/A")</td>
                                     <td>
                                         <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px; margin-right: 5px;" @onclick="() => OnEditCategory(cat)">Edit</button>
                                         <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnDeleteCategory(cat)">Delete</button>
