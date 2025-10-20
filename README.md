@@ -23,8 +23,7 @@ BudgetTracker/
 │  │  │  ├─ ReportsForm.cs
 │  │  │  ├─ SettingsForm.cs
 │  │  │  └─ CategoryDialog.cs
-│  │  ├─ Program.cs
-│  │  └─ App.config
+│  │  └─ Program.cs
 │  ├─ BudgetTracker.Web/                # Blazor Web App
 │  │  ├─ Components/
 │  │  │  ├─ Layout/
@@ -87,10 +86,10 @@ BudgetTracker/
 │  └─ BudgetTracker.Tests/
 │     ├─ Domain/
 │     │  └─ TransactionTests.cs
-│     ├─ Services/
-│     │  ├─ BudgetServiceTests.cs
-│     │  ├─ RuleEngineTests.cs
-│     │  └─ CsvImportTests.cs
-│     ├─ UnitTest1.cs
-│     └─ Usings.cs
+│     └─ Services/
+│        ├─ BudgetServiceTests.cs
+│        ├─ RuleEngineTests.cs
+│        ├─ CsvImportTests.cs
+│        ├─ RecurringTransactionServiceTests.cs
+│        └─ ReportServiceTests.cs
 ```
