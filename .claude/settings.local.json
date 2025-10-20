@@ -28,7 +28,9 @@
       "Bash(xargs rm -rf)",
       "Bash(sudo lsof -i :5081)",
       "Bash(sudo tcpkill -9 -i lo port 5081)",
-      "Bash(kill -9 14401)"
+      "Bash(kill -9 14401)",
+      "Bash(lsof -ti :5081)",
+      "Bash(xargs kill -9)"
     ],
     "deny": [],
     "ask": []

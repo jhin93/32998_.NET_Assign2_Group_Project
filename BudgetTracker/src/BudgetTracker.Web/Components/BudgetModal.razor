@@ -1,7 +1,9 @@
 @using BudgetTracker.Data
 @using BudgetTracker.Domain.Entities
 
-<div class="modal-overlay @(IsOpen ? "active" : "")" @onclick="OnBackdropClick">
+@if (IsOpen)
+{
+<div class="modal-overlay active" @onclick="OnOverlayClick">
     <div class="modal-dialog" @onclick:stopPropagation>
         <div class="modal-header">
             <h3>@(IsEditMode ? "Edit Budget" : "Add Budget")</h3>
@@ -45,10 +47,10 @@
         </div>
     </div>
 </div>
+}
 
 <style>
     .modal-overlay {
-        display: none;
         position: fixed;
         top: 0;
         left: 0;
@@ -56,9 +58,6 @@
         bottom: 0;
         background: rgba(0, 0, 0, 0.5);
         z-index: 1000;
-    }
-
-    .modal-overlay.active {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -71,6 +70,7 @@
         width: 90%;
         max-width: 500px;
         animation: slideIn 0.3s ease;
+        pointer-events: auto;
     }
 
     @@keyframes slideIn {
@@ -235,8 +235,11 @@
         InvokeAsync(async () => await OnClose.InvokeAsync());
     }
 
-    private void OnBackdropClick()
+    private void OnOverlayClick(MouseEventArgs e)
     {
+        // Only close when clicking the overlay background, not the dialog content
+        // This is handled by CSS: dialog has pointer-events: auto
+        // If you click inside the dialog, this event won't fire due to event capture
         Close();
     }
 
