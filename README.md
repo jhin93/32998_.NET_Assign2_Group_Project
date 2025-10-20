@@ -1,7 +1,14 @@
 ## 32998 .NET Assign2 Group Project
 
 This is the space for the assignment 2 group project.
-Strucrture
+
+## Getting Started
+
+1. Open the solution in Visual Studio
+2. Run the solution
+3. Use the sample.csv file to test the import functionality
+
+## Strucrture
 ```dotnet
 BudgetTracker/
 ├─ BudgetTracker.sln
