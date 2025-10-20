@@ -227,6 +227,30 @@
         font-size: 14px;
     }
 
+    .budget-list-container {
+        max-height: 400px;
+        overflow-y: auto;
+        padding-right: 5px;
+    }
+
+    .budget-list-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .budget-list-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+    }
+
+    .budget-list-container::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 4px;
+    }
+
+    .budget-list-container::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
     .budget-item {
         background: #f8f9fa;
         padding: 16px;
@@ -359,35 +383,37 @@
             </div>
 
             <div class="card">
-                <h3>Budget Status</h3>
+                <h3>Budget Status (@budgets.Count)</h3>
                 @if (budgets.Count > 0)
                 {
-                    @foreach (var budget in budgets.Take(5))
-                    {
-                        var spent = TransactionRepo.GetAll()
-                            .Where(t => t.CategoryId == budget.CategoryId && t.Date >= budget.StartDate && t.Date <= budget.EndDate)
-                            .OfType<Expense>()
-                            .Sum(t => t.Amount.Amount);
-                        var percentage = budget.Amount.Amount > 0 ? (spent / budget.Amount.Amount) * 100 : 0;
-                        var progressClass = percentage > 100 ? "danger" : percentage > 80 ? "warning" : "";
+                    <div class="budget-list-container">
+                        @foreach (var budget in budgets)
+                        {
+                            var spent = TransactionRepo.GetAll()
+                                .Where(t => t.CategoryId == budget.CategoryId && t.Date >= budget.StartDate && t.Date <= budget.EndDate)
+                                .OfType<Expense>()
+                                .Sum(t => t.Amount.Amount);
+                            var percentage = budget.Amount.Amount > 0 ? (spent / budget.Amount.Amount) * 100 : 0;
+                            var progressClass = percentage > 100 ? "danger" : percentage > 80 ? "warning" : "";
 
-                        <div class="budget-item">
-                            <div class="budget-header">
-                                <div>
-                                    <h4>@(budget.Category?.Name ?? "Budget")</h4>
+                            <div class="budget-item">
+                                <div class="budget-header">
+                                    <div>
+                                        <h4>@(budget.Category?.Name ?? "Budget")</h4>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <span>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</span>
+                                        <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnEditBudget(budget)">Edit</button>
+                                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnDeleteBudget(budget)">Delete</button>
+                                    </div>
                                 </div>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <span>$@spent.ToString("F2") / $@budget.Amount.Amount.ToString("F2")</span>
-                                    <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnEditBudget(budget)">Edit</button>
-                                    <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" @onclick="() => OnDeleteBudget(budget)">Delete</button>
+                                <div class="progress-bar">
+                                    <div class="progress-fill @progressClass"
+                                         style="width: @(Math.Min(percentage, 100))%"></div>
                                 </div>
                             </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill @progressClass"
-                                     style="width: @(Math.Min(percentage, 100))%"></div>
-                            </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 }
                 else
                 {
