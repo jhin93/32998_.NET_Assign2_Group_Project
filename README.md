@@ -8,27 +8,54 @@ This is the space for the assignment 2 group project.
 2. Run the solution
 3. Use the sample.csv file to test the import functionality
 
-## Strucrture
+## Structure
 ```dotnet
 BudgetTracker/
 ├─ BudgetTracker.sln
 ├─ src/
-│  ├─ BudgetTracker.App/                # WinForms UI (startup project)
+│  ├─ BudgetTracker.App/                # WinForms UI (desktop application)
 │  │  ├─ Forms/
 │  │  │  ├─ DashboardForm.cs
 │  │  │  ├─ TransactionsForm.cs
+│  │  │  ├─ TransactionDialog.cs
 │  │  │  ├─ BudgetsForm.cs
+│  │  │  ├─ BudgetDialog.cs
 │  │  │  ├─ ReportsForm.cs
-│  │  │  └─ SettingsForm.cs
+│  │  │  ├─ SettingsForm.cs
+│  │  │  └─ CategoryDialog.cs
 │  │  ├─ Program.cs
 │  │  └─ App.config
+│  ├─ BudgetTracker.Web/                # Blazor Web App
+│  │  ├─ Components/
+│  │  │  ├─ Layout/
+│  │  │  │  ├─ MainLayout.razor
+│  │  │  │  └─ NavMenu.razor
+│  │  │  ├─ Pages/
+│  │  │  │  ├─ Home.razor
+│  │  │  │  ├─ Counter.razor
+│  │  │  │  ├─ Weather.razor
+│  │  │  │  └─ Error.razor
+│  │  │  ├─ TransactionModal.razor
+│  │  │  ├─ BudgetModal.razor
+│  │  │  ├─ CategoryModal.razor
+│  │  │  ├─ AccountModal.razor
+│  │  │  ├─ CsvImportModal.razor
+│  │  │  ├─ App.razor
+│  │  │  ├─ Routes.razor
+│  │  │  └─ _Imports.razor
+│  │  ├─ wwwroot/
+│  │  ├─ Program.cs
+│  │  ├─ appsettings.json
+│  │  └─ appsettings.Development.json
 │  ├─ BudgetTracker.Domain/             # Entities, enums, value objects
 │  │  ├─ Entities/
 │  │  │  ├─ Transaction.cs
 │  │  │  ├─ Expense.cs
 │  │  │  ├─ Income.cs
 │  │  │  ├─ Category.cs
-│  │  │  └─ Budget.cs
+│  │  │  ├─ Budget.cs
+│  │  │  ├─ Account.cs
+│  │  │  └─ RecurringTransaction.cs
 │  │  ├─ ValueObjects/
 │  │  │  └─ Money.cs
 │  │  └─ Enums/
@@ -45,18 +72,25 @@ BudgetTracker/
 │  │  │  ├─ RuleEngine.cs
 │  │  │  ├─ BudgetService.cs
 │  │  │  ├─ ReportService.cs
-│  │  │  └─ CsvImportService.cs
+│  │  │  ├─ CsvImportService.cs
+│  │  │  └─ RecurringTransactionService.cs
+│  │  ├─ Extensions/
+│  │  │  ├─ DateTimeExtensions.cs
+│  │  │  └─ DecimalExtensions.cs
+│  │  ├─ Events/
+│  │  │  └─ BudgetTrackerEvents.cs
 │  │  └─ DTO/
 │  │     └─ ImportRow.cs
-│  ├─ BudgetTracker.Data/               # Persistence (start with in-memory; swap to EF later)
+│  ├─ BudgetTracker.Data/               # Persistence (in-memory)
 │  │  ├─ InMemoryRepository.cs
-│  │  ├─ SeedData.cs
-│  │  └─ (optional EF later)
-│  │     ├─ AppDbContext.cs
-│  │     └─ EfRepository.cs
-└─ tests/
-   └─ BudgetTracker.Tests/
-      ├─ BudgetServiceTests.cs
-      ├─ RuleEngineTests.cs
-      └─ CsvImportTests.cs
+│  │  └─ SeedData.cs
+│  └─ BudgetTracker.Tests/
+│     ├─ Domain/
+│     │  └─ TransactionTests.cs
+│     ├─ Services/
+│     │  ├─ BudgetServiceTests.cs
+│     │  ├─ RuleEngineTests.cs
+│     │  └─ CsvImportTests.cs
+│     ├─ UnitTest1.cs
+│     └─ Usings.cs
 ```
