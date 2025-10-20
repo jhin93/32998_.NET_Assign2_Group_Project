@@ -5,11 +5,13 @@ Budget Tracker - A personal finance management application with both desktop (Wi
 ## Prerequisites
 
 ### Required Software
-1. **.NET 9.0 SDK or later**
+1. **.NET 9.0 SDK or later** (includes Blazor framework)
+   - **Blazor is included in .NET SDK - no separate installation needed!**
    - Check your current version: `dotnet --version`
    - If version is less than 9.0, download and install from:
      - **Windows/Mac/Linux**: https://dotnet.microsoft.com/download/dotnet/9.0
    - After installation, verify: `dotnet --version` (should show 9.0.x or higher)
+   - Verify Blazor templates are available: `dotnet new list | grep blazor`
 
 2. **IDE (Choose one)**
    - **Visual Studio 2022** (17.8 or later) - Recommended for Windows
@@ -24,7 +26,40 @@ Budget Tracker - A personal finance management application with both desktop (Wi
 3. **Git** (for cloning the repository)
    - Download: https://git-scm.com/downloads
 
-## Getting Started
+## Quick Start (Fastest Way to Run)
+
+To quickly run the Blazor app:
+
+```bash
+# 1. Verify .NET SDK installation
+dotnet --version
+# Output should be 9.0.x or higher (if not, install from Prerequisites above)
+
+# 2. Clone the repository
+git clone <repository-url>
+cd BudgetTracker
+
+# 3. Navigate to the solution directory (BudgetTracker folder)
+# IMPORTANT: Run these commands from /path/to/BudgetTracker directory
+cd BudgetTracker
+
+# 4. Restore dependencies and build
+# You should be in: /path/to/BudgetTracker/BudgetTracker/
+dotnet restore
+dotnet build
+
+# 5. Navigate to Blazor Web project and run
+cd src/BudgetTracker.Web
+# You should now be in: /path/to/BudgetTracker/BudgetTracker/src/BudgetTracker.Web/
+dotnet run
+
+# 6. Open browser and access the application
+# Navigate to the URL shown in terminal (usually https://localhost:5001)
+```
+
+**IMPORTANT:** Blazor does NOT require separate installation! It's included in .NET SDK.
+
+## Getting Started (Detailed Guide)
 
 ### 1. Clone the Repository
 ```bash
@@ -34,8 +69,12 @@ cd BudgetTracker
 
 ### 2. Restore Dependencies
 ```bash
-# Navigate to the solution directory
+# Navigate to the solution directory (where BudgetTracker.sln is located)
 cd BudgetTracker
+
+# IMPORTANT: You should be in /path/to/BudgetTracker/BudgetTracker/
+# Verify you're in the right directory by checking if BudgetTracker.sln exists
+ls BudgetTracker.sln
 
 # Restore all NuGet packages
 dotnet restore
@@ -43,6 +82,9 @@ dotnet restore
 
 ### 3. Build the Solution
 ```bash
+# IMPORTANT: Run this from the same directory as step 2
+# You should still be in /path/to/BudgetTracker/BudgetTracker/
+
 # Build all projects
 dotnet build
 
@@ -52,6 +94,9 @@ dotnet build --configuration Release
 
 ### 4. Run Tests (Optional but Recommended)
 ```bash
+# IMPORTANT: Run this from the solution directory
+# You should still be in /path/to/BudgetTracker/BudgetTracker/
+
 # Run all unit tests
 dotnet test
 
@@ -66,11 +111,15 @@ dotnet test
 
 1. **Navigate to the Web project folder:**
    ```bash
+   # From the solution directory (/path/to/BudgetTracker/BudgetTracker/)
    cd src/BudgetTracker.Web
+
+   # You should now be in: /path/to/BudgetTracker/BudgetTracker/src/BudgetTracker.Web/
    ```
 
 2. **Run the application:**
    ```bash
+   # IMPORTANT: Make sure you're in the BudgetTracker.Web directory
    dotnet run
    ```
 
@@ -87,7 +136,7 @@ dotnet test
    - Press `Ctrl + C` in the terminal
 
 **Alternative: Using Visual Studio**
-1. Open `BudgetTracker.sln`
+1. Open `BudgetTracker.sln` (located in `/path/to/BudgetTracker/BudgetTracker/`)
 2. In Solution Explorer, right-click on `BudgetTracker.Web` project
 3. Select "Set as Startup Project"
 4. Press `F5` or click the green "Run" button
@@ -99,18 +148,22 @@ dotnet test
 
 1. **Navigate to the App project folder:**
    ```bash
+   # From the solution directory (/path/to/BudgetTracker/BudgetTracker/)
    cd src/BudgetTracker.App
+
+   # You should now be in: /path/to/BudgetTracker/BudgetTracker/src/BudgetTracker.App/
    ```
 
 2. **Run the application:**
    ```bash
+   # IMPORTANT: Make sure you're in the BudgetTracker.App directory
    dotnet run
    ```
 
 3. **The desktop application window will appear automatically**
 
 **Alternative: Using Visual Studio**
-1. Open `BudgetTracker.sln`
+1. Open `BudgetTracker.sln` (located in `/path/to/BudgetTracker/BudgetTracker/`)
 2. In Solution Explorer, right-click on `BudgetTracker.App` project
 3. Select "Set as Startup Project"
 4. Press `F5` or click the green "Run" button
@@ -154,24 +207,41 @@ dotnet test
 
 ### Issue: Build errors after cloning
 **Solution:**
-1. Clean the solution:
+1. Make sure you're in the correct directory (where BudgetTracker.sln is located)
+2. Clean the solution:
    ```bash
+   # Run from /path/to/BudgetTracker/BudgetTracker/
    dotnet clean
    ```
-2. Restore packages:
+3. Restore packages:
    ```bash
    dotnet restore
    ```
-3. Rebuild:
+4. Rebuild:
    ```bash
    dotnet build
    ```
 
+### Issue: "Could not find project or directory" or "No solution found"
+**Solution:**
+1. Verify you're in the correct directory:
+   ```bash
+   # You should be in /path/to/BudgetTracker/BudgetTracker/
+   # Check if BudgetTracker.sln exists
+   ls BudgetTracker.sln
+   ```
+2. If not in the correct directory, navigate to it:
+   ```bash
+   # From repository root
+   cd BudgetTracker
+   ```
+
 ### Issue: Tests fail
 **Solution:**
-1. Ensure all dependencies are restored: `dotnet restore`
-2. Rebuild the solution: `dotnet build`
-3. Run tests with verbose output:
+1. Make sure you're in the solution directory (where BudgetTracker.sln is located)
+2. Ensure all dependencies are restored: `dotnet restore`
+3. Rebuild the solution: `dotnet build`
+4. Run tests with verbose output:
    ```bash
    dotnet test --verbosity detailed
    ```
