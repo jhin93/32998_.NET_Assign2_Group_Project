@@ -717,6 +717,18 @@
         categories = CategoryRepo.GetAll().ToList();
         accounts = AccountRepo.GetAll().ToList();
 
+        // Load Category navigation properties for transactions
+        foreach (var transaction in allTransactions)
+        {
+            transaction.Category = categories.FirstOrDefault(c => c.Id == transaction.CategoryId);
+        }
+
+        // Load Category navigation properties for budgets
+        foreach (var budget in budgets)
+        {
+            budget.Category = categories.FirstOrDefault(c => c.Id == budget.CategoryId);
+        }
+
         var incomes = allTransactions.OfType<Income>();
         var expenses = allTransactions.OfType<Expense>();
 
@@ -855,21 +867,58 @@
         var description = transactionModal.GetDescription();
         var amount = transactionModal.GetAmount();
         var date = transactionModal.GetTransactionDate();
+        var category = categories.FirstOrDefault(c => c.Id == categoryId);
 
         if (isTransactionEditMode && selectedTransaction != null)
         {
-            // Update existing transaction
-            selectedTransaction.CategoryId = categoryId;
-            selectedTransaction.Description = description;
-            selectedTransaction.Amount = new Money(amount);
-            selectedTransaction.Date = date;
-            TransactionRepo.Update(selectedTransaction);
-            Console.WriteLine($"Transaction updated: {description}");
+            // Check if type has changed
+            var isCurrentlyIncome = selectedTransaction is Income;
+            var shouldBeIncome = type == "income";
+
+            if (isCurrentlyIncome != shouldBeIncome)
+            {
+                // Type changed - delete old transaction and create new one
+                TransactionRepo.Remove(selectedTransaction);
+
+                Transaction newTransaction;
+                if (shouldBeIncome)
+                {
+                    newTransaction = new Income(
+                        description,
+                        new Money(amount),
+                        date,
+                        categoryId
+                    );
+                }
+                else
+                {
+                    newTransaction = new Expense(
+                        description,
+                        new Money(amount),
+                        date,
+                        categoryId
+                    );
+                }
+
+                newTransaction.Category = category;
+                TransactionRepo.Add(newTransaction);
+                Console.WriteLine($"Transaction type changed and recreated: {description}");
+            }
+            else
+            {
+                // Type unchanged - update existing transaction
+                selectedTransaction.CategoryId = categoryId;
+                selectedTransaction.Description = description;
+                selectedTransaction.Amount = new Money(amount);
+                selectedTransaction.Date = date;
+                selectedTransaction.Category = category;
+                TransactionRepo.Update(selectedTransaction);
+                Console.WriteLine($"Transaction updated: {description}");
+            }
         }
         else
         {
             // Create new transaction
-            var category = categories.FirstOrDefault(c => c.Id == categoryId);
             Transaction transaction;
 
             if (type == "income")
