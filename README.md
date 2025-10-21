@@ -1,4 +1,4 @@
-## 32998 .NET Assign2 Group Project
+## 32998 NET Assign2 Group Project
 
 Budget Tracker - A personal finance management application with both desktop (WinForms) and web (Blazor) interfaces.
 
